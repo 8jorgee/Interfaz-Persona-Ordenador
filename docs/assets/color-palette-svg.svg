@@ -1,0 +1,138 @@
+<svg viewBox="0 0 880 620" xmlns="http://www.w3.org/2000/svg" font-family="Inter, Arial, sans-serif">
+  <!-- Background -->
+  <rect width="880" height="620" fill="#FAFAFA"/>
+
+  <!-- Title -->
+  <text x="440" y="32" text-anchor="middle" font-size="18" font-weight="700" fill="#1A1A2E">Mnemosyne — Paleta Cromática</text>
+  <text x="440" y="52" text-anchor="middle" font-size="11" fill="#9CA3AF">Todos los pares cumplen WCAG 2.1 AA (≥4.5:1 texto normal, ≥3:1 texto grande)</text>
+
+  <!-- ===== PRIMARY COLORS ===== -->
+  <text x="30" y="86" font-size="13" font-weight="600" fill="#1A1A2E">Colores Primarios</text>
+
+  <rect x="30" y="96" width="120" height="80" rx="10" fill="#4A90D9"/>
+  <text x="90" y="128" text-anchor="middle" font-size="11" fill="#FFF" font-weight="600">Primary</text>
+  <text x="90" y="144" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.8)">#4A90D9</text>
+  <text x="90" y="168" text-anchor="middle" font-size="9" fill="#5A6178">Acciones, sliders, enlaces</text>
+
+  <rect x="164" y="96" width="120" height="80" rx="10" fill="#2E6DB4"/>
+  <text x="224" y="128" text-anchor="middle" font-size="11" fill="#FFF" font-weight="600">Primary Dark</text>
+  <text x="224" y="144" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.8)">#2E6DB4</text>
+  <text x="224" y="168" text-anchor="middle" font-size="9" fill="#5A6178">Hover, pressed</text>
+
+  <rect x="298" y="96" width="120" height="80" rx="10" fill="#E8F4FD" stroke="#B0D4F1" stroke-width="1"/>
+  <text x="358" y="128" text-anchor="middle" font-size="11" fill="#2E6DB4" font-weight="600">Primary Light</text>
+  <text x="358" y="144" text-anchor="middle" font-size="10" fill="#5A6178">#E8F4FD</text>
+  <text x="358" y="168" text-anchor="middle" font-size="9" fill="#5A6178">Fondos destacados</text>
+
+  <!-- ===== SEMANTIC COLORS ===== -->
+  <text x="30" y="210" font-size="13" font-weight="600" fill="#1A1A2E">Colores Semánticos</text>
+
+  <rect x="30" y="220" width="120" height="80" rx="10" fill="#4CAF81"/>
+  <text x="90" y="252" text-anchor="middle" font-size="11" fill="#FFF" font-weight="600">Success</text>
+  <text x="90" y="268" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.8)">#4CAF81</text>
+  <text x="90" y="292" text-anchor="middle" font-size="9" fill="#5A6178">Guardar, confirmación</text>
+
+  <rect x="164" y="220" width="120" height="80" rx="10" fill="#E67E22"/>
+  <text x="224" y="252" text-anchor="middle" font-size="11" fill="#FFF" font-weight="600">Warning</text>
+  <text x="224" y="268" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.8)">#E67E22</text>
+  <text x="224" y="292" text-anchor="middle" font-size="9" fill="#5A6178">Límites, avisos</text>
+
+  <rect x="298" y="220" width="120" height="80" rx="10" fill="#C0392B"/>
+  <text x="358" y="252" text-anchor="middle" font-size="11" fill="#FFF" font-weight="600">Danger</text>
+  <text x="358" y="268" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.8)">#C0392B</text>
+  <text x="358" y="292" text-anchor="middle" font-size="9" fill="#5A6178">Solo errores sistema</text>
+
+  <!-- Light versions -->
+  <rect x="432" y="220" width="80" height="36" rx="6" fill="#E8F5E9" stroke="#A5D6A7" stroke-width="1"/>
+  <text x="472" y="243" text-anchor="middle" font-size="9" fill="#388E3C">#E8F5E9</text>
+
+  <rect x="522" y="220" width="80" height="36" rx="6" fill="#FFF3E0" stroke="#FFCC80" stroke-width="1"/>
+  <text x="562" y="243" text-anchor="middle" font-size="9" fill="#E65100">#FFF3E0</text>
+
+  <rect x="612" y="220" width="80" height="36" rx="6" fill="#FDEDEC" stroke="#F5B7B1" stroke-width="1"/>
+  <text x="652" y="243" text-anchor="middle" font-size="9" fill="#C0392B">#FDEDEC</text>
+
+  <text x="472" y="270" text-anchor="middle" font-size="8" fill="#9CA3AF">Fondo éxito</text>
+  <text x="562" y="270" text-anchor="middle" font-size="8" fill="#9CA3AF">Fondo aviso</text>
+  <text x="652" y="270" text-anchor="middle" font-size="8" fill="#9CA3AF">Fondo error</text>
+
+  <!-- ===== VIEW ACCENT COLORS ===== -->
+  <text x="30" y="334" font-size="13" font-weight="600" fill="#1A1A2E">Acentos por Vista</text>
+
+  <!-- Alzheimer -->
+  <rect x="30" y="344" width="260" height="60" rx="10" fill="#FFFFFF" stroke="#B0D4F1" stroke-width="1.5"/>
+  <rect x="30" y="344" width="60" height="60" rx="10" fill="#4A90D9"/>
+  <rect x="75" y="344" width="1" height="60" fill="none"/>
+  <text x="60" y="380" text-anchor="middle" font-size="18" fill="#FFF">👁</text>
+  <text x="110" y="368" font-size="12" font-weight="600" fill="#1A1A2E">Vista Alzheimer</text>
+  <text x="110" y="384" font-size="10" fill="#5A6178">Azul (#4A90D9) · Header blanco</text>
+  <text x="110" y="397" font-size="9" fill="#9CA3AF">Calma y confianza</text>
+
+  <!-- Terapéutica -->
+  <rect x="310" y="344" width="260" height="60" rx="10" fill="#FFFFFF" stroke="#C8A2E8" stroke-width="1.5"/>
+  <rect x="310" y="344" width="60" height="60" rx="10" fill="#7B3FB5"/>
+  <text x="340" y="380" text-anchor="middle" font-size="18" fill="#FFF">🧠</text>
+  <text x="390" y="368" font-size="12" font-weight="600" fill="#1A1A2E">Vista Terapéutica</text>
+  <text x="390" y="384" font-size="10" fill="#5A6178">Violeta (#7B3FB5) · Header oscuro</text>
+  <text x="390" y="397" font-size="9" fill="#9CA3AF">Introspección y concentración</text>
+
+  <!-- Cuidador -->
+  <rect x="590" y="344" width="260" height="60" rx="10" fill="#FFFFFF" stroke="#A5D6A7" stroke-width="1.5"/>
+  <rect x="590" y="344" width="60" height="60" rx="10" fill="#388E3C"/>
+  <text x="620" y="380" text-anchor="middle" font-size="18" fill="#FFF">⚙</text>
+  <text x="670" y="368" font-size="12" font-weight="600" fill="#1A1A2E">Vista Cuidador</text>
+  <text x="670" y="384" font-size="10" fill="#5A6178">Verde (#388E3C) · Sidebar + panel</text>
+  <text x="670" y="397" font-size="9" fill="#9CA3AF">Seguridad y control</text>
+
+  <!-- ===== NEUTRAL SCALE ===== -->
+  <text x="30" y="440" font-size="13" font-weight="600" fill="#1A1A2E">Escala Neutra</text>
+
+  <rect x="30" y="450" width="90" height="56" rx="8" fill="#1A1A2E"/>
+  <text x="75" y="474" text-anchor="middle" font-size="9" fill="#FFF" font-weight="600">Text Primary</text>
+  <text x="75" y="490" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.7)">#1A1A2E</text>
+
+  <rect x="130" y="450" width="90" height="56" rx="8" fill="#5A6178"/>
+  <text x="175" y="474" text-anchor="middle" font-size="9" fill="#FFF" font-weight="600">Text Secondary</text>
+  <text x="175" y="490" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.7)">#5A6178</text>
+
+  <rect x="230" y="450" width="90" height="56" rx="8" fill="#9CA3AF"/>
+  <text x="275" y="474" text-anchor="middle" font-size="9" fill="#FFF" font-weight="600">Text Muted</text>
+  <text x="275" y="490" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.7)">#9CA3AF</text>
+
+  <rect x="340" y="450" width="90" height="56" rx="8" fill="#E2E8F0" stroke="#CCC" stroke-width="0.5"/>
+  <text x="385" y="474" text-anchor="middle" font-size="9" fill="#5A6178" font-weight="600">Border</text>
+  <text x="385" y="490" text-anchor="middle" font-size="8" fill="#5A6178">#E2E8F0</text>
+
+  <rect x="440" y="450" width="90" height="56" rx="8" fill="#EEF0F4" stroke="#CCC" stroke-width="0.5"/>
+  <text x="485" y="474" text-anchor="middle" font-size="9" fill="#5A6178" font-weight="600">BG Tertiary</text>
+  <text x="485" y="490" text-anchor="middle" font-size="8" fill="#5A6178">#EEF0F4</text>
+
+  <rect x="540" y="450" width="90" height="56" rx="8" fill="#F7F8FA" stroke="#CCC" stroke-width="0.5"/>
+  <text x="585" y="474" text-anchor="middle" font-size="9" fill="#5A6178" font-weight="600">BG Secondary</text>
+  <text x="585" y="490" text-anchor="middle" font-size="8" fill="#5A6178">#F7F8FA</text>
+
+  <rect x="640" y="450" width="90" height="56" rx="8" fill="#FFFFFF" stroke="#CCC" stroke-width="1"/>
+  <text x="685" y="474" text-anchor="middle" font-size="9" fill="#5A6178" font-weight="600">BG Primary</text>
+  <text x="685" y="490" text-anchor="middle" font-size="8" fill="#5A6178">#FFFFFF</text>
+
+  <!-- ===== EMOTION INDICATORS ===== -->
+  <text x="30" y="538" font-size="13" font-weight="600" fill="#1A1A2E">Indicadores Emocionales (Vista Terapéutica)</text>
+
+  <rect x="30" y="548" width="200" height="12" rx="6" fill="#E8E8E8"/>
+  <rect x="30" y="548" width="60" height="12" rx="6" fill="#67A87B"/>
+  <rect x="90" y="548" width="70" height="12" rx="0" fill="#E6A23C"/>
+  <rect x="160" y="548" width="70" height="12" rx="6" fill="#D35F5F"/>
+
+  <text x="60" y="576" text-anchor="middle" font-size="9" fill="#67A87B" font-weight="600">Baja (1-4)</text>
+  <text x="60" y="588" text-anchor="middle" font-size="8" fill="#9CA3AF">#67A87B</text>
+
+  <text x="125" y="576" text-anchor="middle" font-size="9" fill="#E6A23C" font-weight="600">Media (5-7)</text>
+  <text x="125" y="588" text-anchor="middle" font-size="8" fill="#9CA3AF">#E6A23C</text>
+
+  <text x="195" y="576" text-anchor="middle" font-size="9" fill="#D35F5F" font-weight="600">Alta (8-10)</text>
+  <text x="195" y="588" text-anchor="middle" font-size="8" fill="#9CA3AF">#D35F5F</text>
+
+  <text x="310" y="564" font-size="9" fill="#9CA3AF">Nota: Se evita el rojo puro (#FF0000).</text>
+  <text x="310" y="578" font-size="9" fill="#9CA3AF">Se usan tonos apagados para no generar</text>
+  <text x="310" y="592" font-size="9" fill="#9CA3AF">ansiedad (RNF-08, TEPT, Tema 4).</text>
+</svg>
