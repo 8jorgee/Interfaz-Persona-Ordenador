@@ -1,0 +1,151 @@
+<svg viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <!-- Background -->
+  <rect width="900" height="520" rx="12" fill="#FAFAFA"/>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Mnemosyne — Arquitectura de Navegación Global</text>
+
+  <!-- Entry point -->
+  <rect x="370" y="50" width="160" height="36" rx="18" fill="#6C63FF" opacity="0.9"/>
+  <text x="450" y="73" text-anchor="middle" font-size="12" fill="#FFF" font-weight="bold">Selección de Vista</text>
+
+  <!-- Lines from entry -->
+  <line x1="410" y1="86" x2="150" y2="120" stroke="#999" stroke-width="1.5" stroke-dasharray="4"/>
+  <line x1="450" y1="86" x2="450" y2="120" stroke="#999" stroke-width="1.5" stroke-dasharray="4"/>
+  <line x1="490" y1="86" x2="750" y2="120" stroke="#999" stroke-width="1.5" stroke-dasharray="4"/>
+
+  <!-- ===== VISTA ALZHEIMER (left) ===== -->
+  <rect x="20" y="115" width="260" height="390" rx="12" fill="#E8F4FD" stroke="#B0D4F1" stroke-width="1.5"/>
+  <text x="150" y="140" text-anchor="middle" font-size="13" font-weight="bold" fill="#2E7DB8">Vista Paciente-Alzheimer</text>
+  <text x="150" y="155" text-anchor="middle" font-size="10" fill="#5A9AC7">(María Luisa)</text>
+
+  <!-- Dashboard ML -->
+  <rect x="55" y="170" width="190" height="44" rx="8" fill="#FFFFFF" stroke="#B0D4F1" stroke-width="1"/>
+  <text x="150" y="190" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Dashboard</text>
+  <text x="150" y="203" text-anchor="middle" font-size="9" fill="#888">Personas · Favoritos · Búsqueda</text>
+
+  <!-- Galería ML -->
+  <rect x="55" y="234" width="190" height="44" rx="8" fill="#FFFFFF" stroke="#B0D4F1" stroke-width="1"/>
+  <text x="150" y="254" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Galería</text>
+  <text x="150" y="267" text-anchor="middle" font-size="9" fill="#888">Resultados · Filtrada por persona</text>
+
+  <!-- Visor ML -->
+  <rect x="55" y="298" width="190" height="56" rx="8" fill="#FFFFFF" stroke="#4A90D9" stroke-width="2"/>
+  <text x="150" y="318" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Visor de Recuerdo</text>
+  <text x="150" y="331" text-anchor="middle" font-size="9" fill="#4A90D9">Slider Claridad Facial</text>
+  <text x="150" y="344" text-anchor="middle" font-size="9" fill="#888">Guardar · Deshacer</text>
+
+  <!-- Ajustes ML -->
+  <rect x="55" y="374" width="190" height="34" rx="8" fill="#FFFFFF" stroke="#B0D4F1" stroke-width="1"/>
+  <text x="150" y="396" text-anchor="middle" font-size="11" fill="#333">Ajustes (simplificado)</text>
+
+  <!-- Diálogo ML -->
+  <rect x="78" y="424" width="144" height="30" rx="6" fill="#FFF9E6" stroke="#E8D88C" stroke-width="1"/>
+  <text x="150" y="444" text-anchor="middle" font-size="10" fill="#8B7730">Diálogo Confirmar</text>
+
+  <!-- Arrows ML -->
+  <line x1="150" y1="214" x2="150" y2="234" stroke="#5A9AC7" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="150" y1="278" x2="150" y2="298" stroke="#5A9AC7" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="150" y1="354" x2="150" y2="374" stroke="#CCC" stroke-width="1" stroke-dasharray="3"/>
+  <line x1="150" y1="354" x2="150" y2="424" stroke="#E8D88C" stroke-width="1" stroke-dasharray="3"/>
+
+  <!-- ===== VISTA TERAPÉUTICA (center) ===== -->
+  <rect x="310" y="115" width="280" height="390" rx="12" fill="#F3E8FD" stroke="#C8A2E8" stroke-width="1.5"/>
+  <text x="450" y="140" text-anchor="middle" font-size="13" font-weight="bold" fill="#7B3FB5">Vista Paciente-Terapéutica</text>
+  <text x="450" y="155" text-anchor="middle" font-size="10" fill="#9B6FC7">(Carlos)</text>
+
+  <!-- Dashboard Carlos -->
+  <rect x="340" y="170" width="220" height="44" rx="8" fill="#FFFFFF" stroke="#C8A2E8" stroke-width="1"/>
+  <text x="450" y="190" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Dashboard de Sesión</text>
+  <text x="450" y="203" text-anchor="middle" font-size="9" fill="#888">Estado · Buscar · Historial · Iniciar</text>
+
+  <!-- Aviso seguridad -->
+  <rect x="340" y="228" width="106" height="34" rx="8" fill="#FFF3E0" stroke="#FFCC80" stroke-width="1"/>
+  <text x="393" y="248" text-anchor="middle" font-size="9" font-weight="bold" fill="#E65100">Aviso seguridad</text>
+
+  <!-- Historial -->
+  <rect x="458" y="228" width="102" height="34" rx="8" fill="#FFFFFF" stroke="#C8A2E8" stroke-width="1"/>
+  <text x="509" y="248" text-anchor="middle" font-size="9" fill="#333">Historial</text>
+
+  <!-- Visor Carlos -->
+  <rect x="340" y="278" width="220" height="64" rx="8" fill="#FFFFFF" stroke="#7B3FB5" stroke-width="2"/>
+  <text x="450" y="298" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Visor + Atenuación</text>
+  <text x="450" y="311" text-anchor="middle" font-size="9" fill="#7B3FB5">Slider con límite terapeuta</text>
+  <text x="450" y="324" text-anchor="middle" font-size="9" fill="#888">Bienestar · Guardar · Deshacer</text>
+  <text x="450" y="337" text-anchor="middle" font-size="8" fill="#E65100">⚡ Aviso bienestar (30s inactivo)</text>
+
+  <!-- Resumen -->
+  <rect x="340" y="358" width="220" height="50" rx="8" fill="#FFFFFF" stroke="#C8A2E8" stroke-width="1"/>
+  <text x="450" y="378" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Resumen de Sesión</text>
+  <text x="450" y="393" text-anchor="middle" font-size="9" fill="#888">Antes→Después · Nota terapeuta</text>
+
+  <!-- Diálogo Carlos -->
+  <rect x="378" y="424" width="144" height="30" rx="6" fill="#FFF9E6" stroke="#E8D88C" stroke-width="1"/>
+  <text x="450" y="444" text-anchor="middle" font-size="10" fill="#8B7730">Diálogos (Confirmar/Salir)</text>
+
+  <!-- Arrows Carlos -->
+  <line x1="393" y1="214" x2="393" y2="228" stroke="#9B6FC7" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="509" y1="214" x2="509" y2="228" stroke="#9B6FC7" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="393" y1="262" x2="393" y2="278" stroke="#9B6FC7" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="450" y1="342" x2="450" y2="358" stroke="#9B6FC7" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="450" y1="408" x2="450" y2="424" stroke="#E8D88C" stroke-width="1" stroke-dasharray="3"/>
+
+  <!-- ===== VISTA CUIDADOR (right) ===== -->
+  <rect x="620" y="115" width="260" height="390" rx="12" fill="#E8F5E9" stroke="#A5D6A7" stroke-width="1.5"/>
+  <text x="750" y="140" text-anchor="middle" font-size="13" font-weight="bold" fill="#388E3C">Vista Cuidador</text>
+  <text x="750" y="155" text-anchor="middle" font-size="10" fill="#66BB6A">(Elena)</text>
+
+  <!-- Panel principal -->
+  <rect x="650" y="170" width="200" height="44" rx="8" fill="#FFFFFF" stroke="#A5D6A7" stroke-width="1"/>
+  <text x="750" y="190" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Panel Principal</text>
+  <text x="750" y="203" text-anchor="middle" font-size="9" fill="#888">Resumen · Actividad · Filtros</text>
+
+  <!-- Biblioteca -->
+  <rect x="650" y="228" width="96" height="34" rx="8" fill="#FFFFFF" stroke="#A5D6A7" stroke-width="1"/>
+  <text x="698" y="249" text-anchor="middle" font-size="9" fill="#333">Biblioteca</text>
+
+  <!-- Permisos -->
+  <rect x="754" y="228" width="96" height="34" rx="8" fill="#FFFFFF" stroke="#A5D6A7" stroke-width="1"/>
+  <text x="802" y="249" text-anchor="middle" font-size="9" fill="#333">Permisos</text>
+
+  <!-- Editor recuerdo -->
+  <rect x="650" y="278" width="200" height="44" rx="8" fill="#FFFFFF" stroke="#388E3C" stroke-width="2"/>
+  <text x="750" y="298" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Editor de Recuerdo</text>
+  <text x="750" y="311" text-anchor="middle" font-size="9" fill="#888">Metadatos · Filtros · Favorito</text>
+
+  <!-- Previsualizar -->
+  <rect x="650" y="340" width="200" height="50" rx="8" fill="#FFF8E1" stroke="#FFE082" stroke-width="1.5"/>
+  <text x="750" y="360" text-anchor="middle" font-size="10" font-weight="bold" fill="#F57F17">👁 Previsualizar</text>
+  <text x="750" y="376" text-anchor="middle" font-size="9" fill="#888">como paciente (solo lectura)</text>
+
+  <!-- Arrow to preview connecting to Alzheimer view -->
+  <line x1="650" y1="365" x2="280" y2="260" stroke="#F57F17" stroke-width="1.5" stroke-dasharray="5" marker-end="url(#arrowOrange)"/>
+  <text x="430" y="298" font-size="8" fill="#F57F17" transform="rotate(-12, 430, 298)">previsualización</text>
+
+  <!-- Arrows Elena -->
+  <line x1="698" y1="214" x2="698" y2="228" stroke="#66BB6A" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="802" y1="214" x2="802" y2="228" stroke="#66BB6A" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="698" y1="262" x2="698" y2="278" stroke="#66BB6A" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="750" y1="322" x2="750" y2="340" stroke="#FFE082" stroke-width="1" stroke-dasharray="3"/>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="none" stroke="#666" stroke-width="1"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="none" stroke="#F57F17" stroke-width="1"/>
+    </marker>
+  </defs>
+
+  <!-- Legend -->
+  <rect x="20" y="475" width="860" height="30" rx="6" fill="#F5F5F5" stroke="#E0E0E0" stroke-width="1"/>
+  <line x1="40" y1="490" x2="70" y2="490" stroke="#666" stroke-width="1.5"/>
+  <text x="78" y="494" font-size="9" fill="#666">Navegación directa</text>
+  <line x1="200" y1="490" x2="230" y2="490" stroke="#666" stroke-width="1.2" stroke-dasharray="4"/>
+  <text x="238" y="494" font-size="9" fill="#666">Navegación secundaria</text>
+  <line x1="390" y1="490" x2="420" y2="490" stroke="#F57F17" stroke-width="1.5" stroke-dasharray="5"/>
+  <text x="428" y="494" font-size="9" fill="#F57F17">Transición entre vistas</text>
+  <rect x="580" y="484" width="12" height="12" rx="2" fill="none" stroke="#333" stroke-width="2"/>
+  <text x="600" y="494" font-size="9" fill="#666">Pantalla principal (por vista)</text>
+</svg>
