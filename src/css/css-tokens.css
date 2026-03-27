@@ -1,0 +1,225 @@
+/* ==========================================================================
+   MNEMOSYNE — Design Tokens (CSS Custom Properties)
+   ==========================================================================
+   Fuente: 06_style_guide.md
+   
+   Justificación DCU:
+   - Paleta calmante → Tema 2 (02_research_findings.md): "necesito que sea 
+     tranquilo, no como ir al médico" (P03-Elena)
+   - Tipografía ≥18px base → Persona María Luisa (02_personas.md): 
+     dificultad visual, nivel tecnológico bajo
+   - Contraste WCAG AA mínimo → RNF-03 (02_research_findings.md)
+   - Espaciado generoso → Gap analysis §3.2 (03_mental_models.md): 
+     "necesita espacio para respirar entre elementos"
+   ========================================================================== */
+
+:root {
+  /* -----------------------------------------------------------------------
+     1. PALETA CROMÁTICA
+     Justificación: Psicología del color en contextos médicos/terapéuticos.
+     Azules y verdes transmiten calma y confianza (Elliot & Maier, 2014).
+     Se evitan rojos saturados excepto para errores del sistema.
+     Todos los pares fg/bg cumplen WCAG AA (ratio ≥ 4.5:1).
+     ----------------------------------------------------------------------- */
+
+  /* --- Primarios (azul profundo calmante) --- */
+  --color-primary-50:  #E8F0FE;
+  --color-primary-100: #C5DAFC;
+  --color-primary-200: #9EC1F9;
+  --color-primary-300: #74A7F5;
+  --color-primary-400: #4A8DE8;
+  --color-primary-500: #2E6FCF;  /* Principal — botones, enlaces */
+  --color-primary-600: #1F5AB5;
+  --color-primary-700: #164596;
+  --color-primary-800: #0E3177;
+  --color-primary-900: #071E52;
+
+  /* --- Secundarios (verde terapéutico) --- */
+  --color-secondary-50:  #E6F7EC;
+  --color-secondary-100: #C0EBD0;
+  --color-secondary-200: #8EDBA8;
+  --color-secondary-300: #5CC980;
+  --color-secondary-400: #3BB866;
+  --color-secondary-500: #27A854;  /* Confirmaciones, éxito */
+  --color-secondary-600: #1E8F46;
+  --color-secondary-700: #167638;
+  --color-secondary-800: #0E5C2A;
+  --color-secondary-900: #07431D;
+
+  /* --- Neutros (gris cálido — no clínico) --- */
+  --color-neutral-0:   #FFFFFF;
+  --color-neutral-50:  #F8F9FA;
+  --color-neutral-100: #F1F3F5;
+  --color-neutral-200: #E2E6EA;
+  --color-neutral-300: #CED4DA;
+  --color-neutral-400: #ADB5BD;
+  --color-neutral-500: #868E96;
+  --color-neutral-600: #6B7280;
+  --color-neutral-700: #495057;
+  --color-neutral-800: #343A40;
+  --color-neutral-900: #212529;
+
+  /* --- Semánticos --- */
+  --color-success:  #27A854;  /* = secondary-500 */
+  --color-warning:  #E8A838;  /* Ámbar suave, no agresivo */
+  --color-error:    #D94452;  /* Solo errores de sistema — nunca en flujo normal */
+  --color-info:     #2E6FCF;  /* = primary-500 */
+
+  /* --- Emocionales (específicos de Mnemosyne) --- */
+  /* Gradient para indicar intensidad emocional del recuerdo */
+  --color-emotion-calm:    #8EDBA8;  /* Bienestar alto */
+  --color-emotion-neutral: #E8A838;  /* Neutral */
+  --color-emotion-intense: #D94452;  /* Intensidad alta — con cuidado */
+
+  /* --- Superficies por experiencia (Three Experiences, One System) --- */
+  /* María Luisa: cálido, acogedor */
+  --surface-ml-bg:     #FFFBF5;
+  --surface-ml-card:   #FFFFFF;
+  --surface-ml-accent: #2E6FCF;
+
+  /* Carlos: neutro, profesional, sin estímulos */
+  --surface-carlos-bg:     #F5F6F8;
+  --surface-carlos-card:   #FFFFFF;
+  --surface-carlos-accent: #164596;
+
+  /* Elena: funcional, dashboard profesional */
+  --surface-elena-bg:     #F1F3F5;
+  --surface-elena-card:   #FFFFFF;
+  --surface-elena-accent: #1E8F46;
+
+  /* -----------------------------------------------------------------------
+     2. TIPOGRAFÍA
+     Justificación: 
+     - Base 18px (no 16px) → María Luisa necesita texto grande 
+       (02_personas.md: "usa gafas de lectura, amplía textos en el móvil")
+     - Inter como sans-serif → alta legibilidad en pantalla, x-height 
+       generosa, soporte completo de caracteres latinos
+     - Escala modular 1.250 (Major Third) → jerarquía clara sin saltos 
+       bruscos (Bringhurst, 2004)
+     ----------------------------------------------------------------------- */
+
+  --font-family-primary:   'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-mono:      'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Escala modular (base 18px × 1.250) */
+  --font-size-xs:    0.694rem;   /* ~12.5px */
+  --font-size-sm:    0.833rem;   /* ~15px   */
+  --font-size-base:  1rem;       /* 18px    */
+  --font-size-md:    1.25rem;    /* 22.5px  */
+  --font-size-lg:    1.563rem;   /* ~28px   */
+  --font-size-xl:    1.953rem;   /* ~35px   */
+  --font-size-2xl:   2.441rem;   /* ~44px   */
+
+  /* Pesos */
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  /* Line-heights */
+  --line-height-tight:   1.25;
+  --line-height-normal:  1.5;
+  --line-height-relaxed: 1.75;  /* Para María Luisa — más espacio entre líneas */
+
+  /* -----------------------------------------------------------------------
+     3. ESPACIADO
+     Justificación: Escala de 4px base. Espaciado generoso para reducir 
+     carga cognitiva (Gap analysis §3.2: los usuarios perciben interfaces 
+     "apretadas" como más complejas). Mínimo touch target 56×56px 
+     (superior a WCAG 44px, por persona María Luisa).
+     ----------------------------------------------------------------------- */
+
+  --space-1:   0.25rem;  /*  4px */
+  --space-2:   0.5rem;   /*  8px */
+  --space-3:   0.75rem;  /* 12px */
+  --space-4:   1rem;     /* 16px */
+  --space-5:   1.25rem;  /* 20px */
+  --space-6:   1.5rem;   /* 24px */
+  --space-8:   2rem;     /* 32px */
+  --space-10:  2.5rem;   /* 40px */
+  --space-12:  3rem;     /* 48px */
+  --space-16:  4rem;     /* 64px */
+  --space-20:  5rem;     /* 80px */
+
+  /* Touch targets */
+  --touch-target-min:  44px;  /* WCAG mínimo */
+  --touch-target-safe: 56px;  /* Nuestro mínimo — María Luisa */
+
+  /* -----------------------------------------------------------------------
+     4. BORDES Y SOMBRAS
+     Justificación: Bordes redondeados suaves → percepción no clínica 
+     (Tema 2, 02_research_findings.md). Sombras sutiles para jerarquía 
+     visual sin estridencias.
+     ----------------------------------------------------------------------- */
+
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-full: 9999px;
+
+  --shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md:  0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg:  0 10px 15px rgba(0, 0, 0, 0.08), 0 4px 6px rgba(0, 0, 0, 0.04);
+  --shadow-xl:  0 20px 25px rgba(0, 0, 0, 0.10), 0 8px 10px rgba(0, 0, 0, 0.04);
+
+  /* Glassmorphism (para overlays de visor de recuerdos) */
+  --glass-bg:    rgba(255, 255, 255, 0.72);
+  --glass-blur:  12px;
+  --glass-border: rgba(255, 255, 255, 0.3);
+
+  /* -----------------------------------------------------------------------
+     5. TRANSICIONES Y ANIMACIONES
+     Justificación: Transiciones suaves → feedback gradual, no brusco.
+     Tema 3 (02_research_findings.md): "los cambios repentinos me asustan"
+     (P01-María Luisa). Duración mínima 200ms para perceptibilidad.
+     prefers-reduced-motion se respeta globalmente.
+     ----------------------------------------------------------------------- */
+
+  --transition-fast:    150ms ease-out;
+  --transition-normal:  250ms ease-in-out;
+  --transition-slow:    400ms ease-in-out;
+  --transition-gentle:  600ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* -----------------------------------------------------------------------
+     6. Z-INDEX SCALE
+     ----------------------------------------------------------------------- */
+
+  --z-base:      0;
+  --z-dropdown:  100;
+  --z-sticky:    200;
+  --z-overlay:   300;
+  --z-modal:     400;
+  --z-popover:   500;
+  --z-toast:     600;
+  --z-tooltip:   700;
+
+  /* -----------------------------------------------------------------------
+     7. LAYOUT
+     ----------------------------------------------------------------------- */
+
+  --sidebar-width:      280px;
+  --sidebar-width-sm:   240px;
+  --content-max-width:  1200px;
+  --header-height:      72px;
+  --header-height-ml:   88px;  /* Más alto para María Luisa */
+}
+
+/* =========================================================================
+   MODO OSCURO (OPCIONAL — Carlos prefiere bajo estímulo visual)
+   Justificación: Entrevista P04 (Carlos): "por la noche es cuando más 
+   uso el sistema, la luz de la pantalla me molesta"
+   ========================================================================= */
+
+@media (prefers-color-scheme: dark) {
+  :root[data-user="carlos"] {
+    --surface-carlos-bg:     #1A1B1E;
+    --surface-carlos-card:   #25262B;
+    --color-neutral-0:       #1A1B1E;
+    --color-neutral-50:      #25262B;
+    --color-neutral-100:     #2C2E33;
+    --color-neutral-800:     #E2E6EA;
+    --color-neutral-900:     #F1F3F5;
+  }
+}

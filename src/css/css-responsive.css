@@ -1,0 +1,362 @@
+/* ==========================================================================
+   MNEMOSYNE — Sistema Responsive (Mobile-First)
+   ==========================================================================
+   Justificación DCU:
+   - RNF-07 (02_research_findings.md): "El sistema debe ser usable en 
+     tablet y ordenador de sobremesa"
+   - Observación contextual O-02: María Luisa usa una tablet en el sofá; 
+     Elena monitoriza desde el portátil en la cocina
+   - Escenario E-04 (02_scenarios.md): Carlos accede desde el móvil en 
+     situaciones de ansiedad nocturna
+   
+   Breakpoints:
+   - Mobile:  < 640px   (Carlos: acceso de emergencia nocturno)
+   - Tablet:  640–1024px (María Luisa: tablet en el sofá)
+   - Desktop: > 1024px  (Elena: portátil; Carlos: sesión terapéutica)
+   - Wide:    > 1440px  (Elena: monitor grande en consulta)
+   
+   Estrategia: Mobile-first. El layout base es de columna única (sin 
+   sidebar visible). La complejidad se añade progresivamente.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. MOBILE BASE (< 640px)
+   ==========================================================================
+   Layout de una sola columna. Sidebar se convierte en drawer lateral.
+   Prioridad: acceso rápido al recuerdo, controles grandes.
+   
+   Justificación: Escenario E-04 — Carlos en situación de ansiedad 
+   necesita acceso inmediato sin complejidad de navegación.
+   ========================================================================== */
+
+.app {
+  grid-template-areas:
+    "header"
+    "main"
+    "status";
+  grid-template-columns: 1fr;
+  grid-template-rows: var(--header-height) 1fr auto;
+}
+
+/* Sidebar oculta, se despliega como drawer */
+.app-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-width-sm);
+  transform: translateX(-100%);
+  transition: transform var(--transition-normal);
+  z-index: var(--z-overlay);
+  box-shadow: none;
+}
+
+.app-sidebar--open {
+  transform: translateX(0);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Backdrop del drawer */
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: calc(var(--z-overlay) - 1);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-normal), visibility var(--transition-normal);
+}
+
+.sidebar-backdrop--visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mostrar botón de menú hamburguesa en mobile */
+.app-header__menu-toggle {
+  display: flex;
+}
+
+/* Main: menos padding en mobile */
+.app-main {
+  padding: var(--space-4);
+}
+
+/* Grids se apilan en una columna */
+.memory-grid {
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+/* Visor: una sola columna (controles debajo del recuerdo) */
+.viewer-layout {
+  grid-template-columns: 1fr;
+}
+
+/* Dashboard Elena: una columna */
+.dashboard-grid {
+  grid-template-columns: 1fr;
+}
+
+.dashboard-grid__wide {
+  grid-column: span 1;
+}
+
+/* Status bar simplificada en mobile */
+.app-status {
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  text-align: center;
+}
+
+.app-status__filters {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Ocultar texto secundario del header en mobile */
+.app-header__implant-status span:not(.app-header__implant-dot) {
+  display: none;
+}
+
+/* ==========================================================================
+   2. TABLET (≥ 640px)
+   ==========================================================================
+   Sidebar parcial (iconos only). Grids de 2 columnas.
+   
+   Justificación: María Luisa usa tablet — necesita cards grandes 
+   pero se beneficia de navegación lateral con iconos reconocibles.
+   ========================================================================== */
+
+@media (min-width: 640px) {
+  .app-main {
+    padding: var(--space-6);
+  }
+
+  .memory-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+
+  .app[data-user="maria-luisa"] .memory-grid {
+    grid-template-columns: 1fr;  /* María Luisa: cards extra grandes en tablet */
+    gap: var(--space-8);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-grid__wide {
+    grid-column: span 2;
+  }
+
+  .app-status {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  /* Mostrar texto del indicador de implante */
+  .app-header__implant-status span {
+    display: inline;
+  }
+}
+
+/* ==========================================================================
+   3. DESKTOP (≥ 1024px)
+   ==========================================================================
+   Sidebar visible permanente. Layout completo de grid.
+   
+   Justificación: Elena monitoriza desde portátil — necesita dashboard 
+   completo con sidebar visible. Carlos en sesión terapéutica — layout 
+   de visor con controles laterales.
+   ========================================================================== */
+
+@media (min-width: 1024px) {
+  .app {
+    grid-template-areas:
+      "header  header"
+      "sidebar main"
+      "status  status";
+    grid-template-columns: var(--sidebar-width) 1fr;
+  }
+
+  /* Sidebar visible permanente */
+  .app-sidebar {
+    position: relative;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Ocultar hamburguesa y backdrop */
+  .app-header__menu-toggle {
+    display: none;
+  }
+
+  .sidebar-backdrop {
+    display: none;
+  }
+
+  /* Main con padding completo */
+  .app-main {
+    padding: var(--space-8);
+  }
+
+  /* Grids a su capacidad completa */
+  .memory-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  .app[data-user="maria-luisa"] .memory-grid {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  }
+
+  /* Visor: layout de 2 columnas (recuerdo + controles laterales) */
+  .viewer-layout {
+    grid-template-columns: 1fr 360px;
+  }
+
+  /* Dashboard Elena: 3 columnas */
+  .dashboard-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ==========================================================================
+   4. WIDE DESKTOP (≥ 1440px)
+   ==========================================================================
+   Más espacio para el contenido. Grid más abierto.
+   
+   Justificación: Elena en monitor de consulta — puede ver más 
+   pacientes/recuerdos simultáneamente.
+   ========================================================================== */
+
+@media (min-width: 1440px) {
+  .app-main {
+    padding: var(--space-10) var(--space-12);
+  }
+
+  .memory-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-8);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ==========================================================================
+   5. ADAPTACIONES POR EXPERIENCIA (data-user)
+   ==========================================================================
+   Modificaciones responsive específicas por tipo de usuario, basadas 
+   en los wireframes diferenciados del Commit 4.
+   ========================================================================== */
+
+/* --- María Luisa: elementos más grandes en todas las resoluciones --- */
+.app[data-user="maria-luisa"] {
+  --font-size-base: 1.125rem;  /* 20px en vez de 18px */
+  --touch-target-safe: 64px;   /* Targets aún más grandes */
+}
+
+.app[data-user="maria-luisa"] .nav-item {
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--font-size-md);
+}
+
+@media (min-width: 1024px) {
+  .app[data-user="maria-luisa"] {
+    grid-template-columns: 320px 1fr;  /* Sidebar más ancha */
+  }
+}
+
+/* --- Carlos: modo compacto, menos estímulos --- */
+.app[data-user="carlos"] .app-header {
+  border-bottom-color: var(--color-neutral-100);  /* Más sutil */
+}
+
+.app[data-user="carlos"] .app-sidebar {
+  border-right-color: var(--color-neutral-100);
+}
+
+/* En la sesión de atenuación, ocultar navegación para minimizar 
+   distracciones — HTA-2 plan 4: "mantener foco en la tarea" */
+.app[data-user="carlos"][data-session="attenuation"] .app-sidebar {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.app[data-user="carlos"][data-session="attenuation"] .app-header__user-area {
+  opacity: 0.3;
+}
+
+/* --- Elena: layout denso, más información visible --- */
+.app[data-user="elena"] {
+  --font-size-base: 0.944rem;  /* 17px — puede manejar texto más pequeño */
+}
+
+@media (min-width: 1024px) {
+  .app[data-user="elena"] {
+    grid-template-columns: 240px 1fr;  /* Sidebar más estrecha → más espacio para dashboard */
+  }
+}
+
+/* ==========================================================================
+   6. PRINT STYLES
+   ========================================================================== */
+
+@media print {
+  .app-sidebar,
+  .app-header__menu-toggle,
+  .app-status,
+  .overlay {
+    display: none !important;
+  }
+
+  .app {
+    display: block;
+  }
+
+  .app-main {
+    padding: 0;
+  }
+
+  body {
+    font-size: 12pt;
+    color: #000;
+    background: #fff;
+  }
+}
+
+/* ==========================================================================
+   7. PREFERENCIAS DE USUARIO (a11y)
+   ========================================================================== */
+
+/* Texto más grande si el usuario lo solicita en el SO */
+@media (min-resolution: 1.5dppx) {
+  :root {
+    /* Ajustar sombras para pantallas HiDPI */
+    --shadow-sm: 0 0.5px 1.5px rgba(0, 0, 0, 0.06), 0 0.5px 1px rgba(0, 0, 0, 0.03);
+  }
+}
+
+/* Respeto a la preferencia de contraste del SO */
+@media (prefers-contrast: high) {
+  :root {
+    --color-neutral-200: #999;
+    --color-neutral-500: #333;
+  }
+
+  .app-sidebar {
+    border-right-width: 2px;
+  }
+
+  .app-header {
+    border-bottom-width: 2px;
+  }
+
+  .nav-item--active::before {
+    width: 6px;
+  }
+}

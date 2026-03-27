@@ -1,0 +1,450 @@
+/* ==========================================================================
+   MNEMOSYNE — Layout Principal (CSS Grid)
+   ==========================================================================
+   Estructura basada en los wireframes (04_wireframes.md) y el STD de 
+   navegación global (03_dialogue_specification.md).
+   
+   Arquitectura de layout:
+   ┌─────────────────────────────────────────────────────┐
+   │                    HEADER                           │
+   ├──────────┬──────────────────────────────────────────┤
+   │          │                                          │
+   │ SIDEBAR  │              MAIN CONTENT                │
+   │  (nav)   │                                          │
+   │          │                                          │
+   │          │                                          │
+   ├──────────┴──────────────────────────────────────────┤
+   │                  STATUS BAR                         │
+   └─────────────────────────────────────────────────────┘
+   
+   Justificación DCU:
+   - Sidebar fija → HTA punto crítico 1.2: navegación siempre accesible 
+     sin perder contexto (03_task_analysis.md)
+   - Header con estado del implante → Gap analysis §4.1: "¿está encendido?"
+     (03_mental_models.md)
+   - Status bar → Principio ético de transparencia (01_project_charter.md §7)
+   ========================================================================== */
+
+/* ==========================================================================
+   1. APP SHELL — Grid principal
+   ========================================================================== */
+
+.app {
+  display: grid;
+  grid-template-areas:
+    "header  header"
+    "sidebar main"
+    "status  status";
+  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-rows: var(--header-height) 1fr auto;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* Variante María Luisa: header más alto para elementos más grandes */
+.app[data-user="maria-luisa"] {
+  grid-template-rows: var(--header-height-ml) 1fr auto;
+}
+
+/* ==========================================================================
+   2. HEADER
+   ========================================================================== */
+
+.app-header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+  background-color: var(--color-neutral-0);
+  border-bottom: 1px solid var(--color-neutral-200);
+  box-shadow: var(--shadow-xs);
+  z-index: var(--z-sticky);
+}
+
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.app-header__logo {
+  width: 36px;
+  height: 36px;
+}
+
+.app-header__title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-700);
+}
+
+/* Indicador de estado del implante 
+   Justificación: Gap analysis §4.1 — usuarios necesitan confirmar 
+   visualmente que el implante está activo y conectado */
+.app-header__implant-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--color-secondary-50);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--color-secondary-700);
+}
+
+.app-header__implant-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-secondary-500);
+  /* Pulso sutil para indicar "vivo" */
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.6; transform: scale(0.85); }
+}
+
+.app-header__user-area {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* Botón de perfil/cambio de usuario */
+.app-header__user-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast);
+}
+
+.app-header__user-btn:hover {
+  background-color: var(--color-neutral-100);
+}
+
+.app-header__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 2px solid var(--color-neutral-200);
+}
+
+/* Toggle sidebar (visible solo en mobile/tablet) */
+.app-header__menu-toggle {
+  display: none;
+  width: var(--touch-target-safe);
+  height: var(--touch-target-safe);
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast);
+}
+
+.app-header__menu-toggle:hover {
+  background-color: var(--color-neutral-100);
+}
+
+/* ==========================================================================
+   3. SIDEBAR / NAVEGACIÓN
+   ==========================================================================
+   Justificación: Navegación persistente con iconos + texto.
+   - HTA punto crítico 1.2: el usuario debe poder cambiar de sección 
+     sin perder contexto
+   - Modelo mental María Luisa §2.1: metáfora de "cajones" para secciones
+   - Wireframe Dashboard (04_wireframes.md): sidebar con 4 secciones
+   ========================================================================== */
+
+.app-sidebar {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-neutral-0);
+  border-right: 1px solid var(--color-neutral-200);
+  padding: var(--space-6) 0;
+  overflow-y: auto;
+  z-index: var(--z-sticky);
+}
+
+.app-sidebar__nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: 0 var(--space-3);
+}
+
+.app-sidebar__section-label {
+  padding: var(--space-4) var(--space-4) var(--space-2);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Item de navegación */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--color-neutral-700);
+  text-decoration: none;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target-safe);
+}
+
+.nav-item:hover {
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-900);
+}
+
+.nav-item--active {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-700);
+  font-weight: var(--font-weight-semibold);
+}
+
+.nav-item--active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 4px;
+  height: 32px;
+  background-color: var(--color-primary-500);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.nav-item__icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.nav-item--active .nav-item__icon {
+  opacity: 1;
+}
+
+/* Información del implante en el footer del sidebar */
+.app-sidebar__footer {
+  padding: var(--space-4) var(--space-4) var(--space-2);
+  margin-top: auto;
+  border-top: 1px solid var(--color-neutral-200);
+}
+
+.implant-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  background-color: var(--color-neutral-50);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-600);
+}
+
+/* ==========================================================================
+   4. MAIN CONTENT AREA
+   ========================================================================== */
+
+.app-main {
+  grid-area: main;
+  overflow-y: auto;
+  padding: var(--space-8);
+  background-color: var(--color-neutral-50);
+}
+
+/* Contenedor interno con ancho máximo centrado */
+.app-main__container {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Título de sección (dentro del main) */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+}
+
+.section-header__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-900);
+}
+
+.section-header__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+  margin-top: var(--space-1);
+}
+
+/* ==========================================================================
+   5. STATUS BAR (footer)
+   ==========================================================================
+   Justificación: Principio ético de transparencia (01_project_charter.md §7).
+   Muestra filtros activos y estado actual del sistema de forma persistente.
+   Diálogo D-04 (03_dialogue_specification.md): "Límite alcanzado" se 
+   refleja aquí cuando aplica.
+   ========================================================================== */
+
+.app-status {
+  grid-area: status;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-6);
+  background-color: var(--color-neutral-0);
+  border-top: 1px solid var(--color-neutral-200);
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-600);
+  min-height: 40px;
+}
+
+.app-status__filters {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.app-status__filter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-700);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+}
+
+/* Mensaje de seguridad permanente
+   Justificación: Gap analysis §5.1 — "miedo a romper" el recuerdo.
+   Mensaje siempre visible: "El original se conserva" */
+.app-status__safety-msg {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-secondary-600);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ==========================================================================
+   6. OVERLAY / MODAL LAYER
+   ==========================================================================
+   Capa para los diálogos modales definidos en 03_dialogue_specification.md
+   (D-01 a D-06). Aplica glassmorphism sutil.
+   ========================================================================== */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-normal), visibility var(--transition-normal);
+}
+
+.overlay--visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  padding: var(--space-8);
+  max-width: 480px;
+  width: 90%;
+  transform: translateY(8px);
+  transition: transform var(--transition-normal);
+}
+
+.overlay--visible .modal {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   7. CONTENT GRIDS (reutilizables dentro de main)
+   ==========================================================================
+   Grid para la galería de recuerdos (vista María Luisa/Elena).
+   Justificación: 04_wireframes.md — galería con cards de recuerdos 
+   en grid responsive.
+   ========================================================================== */
+
+/* Grid de cards de recuerdos */
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+/* Grid para María Luisa: cards más grandes, menos columnas */
+.app[data-user="maria-luisa"] .memory-grid {
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-8);
+}
+
+/* Layout del visor de recuerdo (2 columnas: recuerdo + controles) */
+.viewer-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+/* Layout del dashboard de Elena (grid de monitorización) */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+.dashboard-grid__wide {
+  grid-column: span 2;
+}
+
+.dashboard-grid__full {
+  grid-column: 1 / -1;
+}
+
+/* ==========================================================================
+   8. VISTAS (contenedores de cada pantalla)
+   ==========================================================================
+   Cada vista se muestra/oculta via JS (Commit 11: navegación SPA).
+   Solo una vista es visible a la vez.
+   ========================================================================== */
+
+.view {
+  display: none;
+}
+
+.view--active {
+  display: block;
+  animation: fadeIn var(--transition-normal);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

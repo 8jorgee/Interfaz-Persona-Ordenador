@@ -1,0 +1,213 @@
+/* ==========================================================================
+   MNEMOSYNE — CSS Reset
+   ==========================================================================
+   Reset moderno basado en Andy Bell's "A Modern CSS Reset" (2019) y 
+   Josh Comeau's "Custom CSS Reset" (2021), adaptado a las necesidades 
+   de accesibilidad del proyecto.
+   
+   Justificación DCU:
+   - Base font-size: 18px → Persona María Luisa (dificultad visual)
+   - scroll-behavior: smooth → Tema 3 (gradualidad, sin cambios bruscos)
+   - prefers-reduced-motion → WCAG 2.1 SC 2.3.3 (RNF-03)
+   - focus-visible con outline grueso → usuarios que navegan con teclado
+   ========================================================================== */
+
+/* --- 1. Box Model Universal --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* --- 2. Márgenes por defecto eliminados --- */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* --- 3. Documento base --- */
+html {
+  font-size: 112.5%;          /* 18px base (18/16 = 1.125) */
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  height: 100%;
+}
+
+/* Respetar preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --- 4. Body --- */
+body {
+  min-height: 100vh;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  color: var(--color-neutral-900);
+  background-color: var(--color-neutral-50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* --- 5. Tipografía --- */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  overflow-wrap: break-word;
+}
+
+p, li, dd, blockquote {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* --- 6. Imágenes y media --- */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* --- 7. Formularios — heredar tipografía --- */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* --- 8. Botones — reset para re-estilizar --- */
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* Touch targets mínimos (56px para nuestro público) */
+button,
+[role="button"],
+a,
+input,
+select,
+textarea,
+summary {
+  min-height: var(--touch-target-safe);
+}
+
+/* --- 9. Enlaces --- */
+a {
+  color: var(--color-primary-500);
+  text-decoration-skip-ink: auto;
+}
+
+/* --- 10. Listas --- */
+ul, ol {
+  list-style: none;
+}
+
+/* --- 11. Tablas --- */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* --- 12. Focus visible — ACCESIBILIDAD CRÍTICA ---
+   Justificación: Outline grueso y de alto contraste para navegación 
+   por teclado. Se usa :focus-visible (no :focus) para no penalizar 
+   interacciones con ratón.
+   Referencia: WCAG 2.1 SC 2.4.7 Focus Visible (Nivel AA) */
+:focus-visible {
+  outline: 3px solid var(--color-primary-400);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Quitar outline en interacción con ratón */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* --- 13. Selection --- */
+::selection {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-900);
+}
+
+/* --- 14. Scrollbar personalizada (sutil) --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-neutral-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-neutral-300);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral-400);
+}
+
+/* --- 15. Utilidades de accesibilidad --- */
+
+/* Oculto visualmente pero accesible para lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Skip link (primer elemento para navegación con teclado) */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: var(--z-tooltip);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-primary-500);
+  color: var(--color-neutral-0);
+  font-weight: var(--font-weight-semibold);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Modo de alto contraste forzado (Windows) */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 3px solid ButtonText;
+  }
+}
