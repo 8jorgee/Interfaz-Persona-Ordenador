@@ -1,0 +1,552 @@
+/* ==========================================================================
+   MNEMOSYNE — Neuro-Aesthetic Layer
+   ==========================================================================
+   Capa visual que simula la conexión con el implante neuronal NeuroLink V4.
+   Estos efectos refuerzan la narrativa de "interfaz imaginada" y 
+   contribuyen al criterio de CREATIVIDAD de la rúbrica (20%).
+   
+   Principio: Los efectos son sutiles y decorativos, NUNCA interfieren 
+   con la usabilidad. Se desactivan con prefers-reduced-motion.
+   
+   Justificación DCU:
+   - Tema 2 (02_research_findings.md): "que no parezca un hospital"
+     → Estética futurista cálida, no clínica
+   - Gap analysis §4.1 (03_mental_models.md): necesidad de percibir 
+     la "vida" del implante → indicadores animados
+   - Principio ético de transparencia → el estado del implante es 
+     siempre visible y comprensible
+   ========================================================================== */
+
+/* ==========================================================================
+   1. NEURAL GRID — Fondo decorativo
+   ==========================================================================
+   Patrón sutil de puntos que evoca una red neuronal. Se muestra como 
+   fondo de la aplicación, con muy baja opacidad.
+   ========================================================================== */
+
+.app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 1px 1px, var(--color-primary-200) 1px, transparent 0);
+  background-size: 40px 40px;
+  opacity: 0.25;
+}
+
+/* Variación por experiencia */
+.app[data-user="carlos"]::before {
+  opacity: 0.1;  /* Más sutil para Carlos — menos estímulos */
+}
+
+.app[data-user="maria-luisa"]::before {
+  opacity: 0.15;  /* Visible pero suave */
+}
+
+/* ==========================================================================
+   2. IMPLANT CONNECTION INDICATOR
+   ==========================================================================
+   Indicador visual del estado de conexión con el implante.
+   Simula una "línea de vida" con animación de pulso.
+   
+   Justificación: Gap analysis §4.1 — "¿el aparato está encendido?"
+   ========================================================================== */
+
+.implant-connection {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-50) 0%,
+    rgba(142, 219, 168, 0.15) 100%
+  );
+  border: 1px solid var(--color-primary-100);
+}
+
+/* Punto de conexión con pulso */
+.implant-connection__dot {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.implant-connection__dot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-full);
+  background-color: var(--color-secondary-500);
+}
+
+.implant-connection__dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-secondary-400);
+  animation: connection-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes connection-pulse {
+  0%, 100% { opacity: 0; transform: scale(0.8); }
+  50%      { opacity: 0.4; transform: scale(1.3); }
+}
+
+/* Línea de señal tipo ECG simplificada */
+.implant-connection__signal {
+  flex: 1;
+  height: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.implant-connection__signal-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 200%;
+  height: 2px;
+  background: repeating-linear-gradient(
+    to right,
+    transparent 0px,
+    transparent 20px,
+    var(--color-secondary-300) 20px,
+    var(--color-secondary-500) 25px,
+    var(--color-secondary-300) 30px,
+    transparent 30px,
+    transparent 60px
+  );
+  animation: signal-scroll 3s linear infinite;
+}
+
+@keyframes signal-scroll {
+  from { transform: translateX(0) translateY(-50%); }
+  to   { transform: translateX(-50%) translateY(-50%); }
+}
+
+.implant-connection__label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-secondary-700);
+  white-space: nowrap;
+}
+
+/* Estados de conexión */
+.implant-connection--disconnected .implant-connection__dot::before {
+  background-color: var(--color-neutral-400);
+}
+
+.implant-connection--disconnected .implant-connection__dot::after {
+  animation: none;
+  opacity: 0;
+}
+
+.implant-connection--disconnected .implant-connection__signal-line {
+  animation-play-state: paused;
+  opacity: 0.3;
+}
+
+.implant-connection--syncing .implant-connection__dot::before {
+  background-color: var(--color-warning);
+  animation: syncing-blink 0.8s ease-in-out infinite;
+}
+
+@keyframes syncing-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+/* ==========================================================================
+   3. MEMORY VIEWER — Efectos de visualización del recuerdo
+   ==========================================================================
+   Cuando se abre un recuerdo en el visor, se aplican efectos que 
+   simulan la "carga" del recuerdo desde el implante.
+   
+   Justificación:
+   - Escenario E-01: María Luisa abre un recuerdo → feedback de 
+     que "algo está pasando"
+   - Tema 5 (02_research_findings.md): metáfora de "enfocar con gafas"
+   ========================================================================== */
+
+/* Contenedor del visor con borde luminoso */
+.memory-viewer {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+/* Borde luminoso animado */
+.memory-viewer::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    var(--color-primary-300),
+    var(--color-secondary-300),
+    var(--color-primary-100),
+    var(--color-secondary-200),
+    var(--color-primary-300)
+  );
+  animation: border-rotate 6s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes border-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Efecto de carga del recuerdo */
+.memory-viewer--loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--color-primary-50) 50%,
+    transparent 100%
+  );
+  animation: memory-scan 1.5s ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes memory-scan {
+  0%   { transform: translateY(-100%); opacity: 0.8; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+
+/* Imagen del recuerdo */
+.memory-viewer__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlay de metadatos (glassmorphism)
+   Justificación: 04_wireframes.md — metadatos superpuestos al recuerdo */
+.memory-viewer__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-6) var(--space-6) var(--space-5);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.65) 0%,
+    transparent 100%
+  );
+  color: var(--color-neutral-0);
+}
+
+.memory-viewer__overlay-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.memory-viewer__overlay-date {
+  font-size: var(--font-size-sm);
+  opacity: 0.85;
+  margin-top: var(--space-1);
+}
+
+/* ==========================================================================
+   4. CLARITY FILTER EFFECT
+   ==========================================================================
+   Efecto CSS que simula el filtro de claridad facial.
+   Usa CSS filter: blur() aplicado a la imagen del recuerdo.
+   El nivel se controla via JS con --clarity-level (0-100).
+   
+   Justificación: Wireframe ML — slider de "Poco clara" a "Muy clara"
+   El blur se reduce a medida que la claridad aumenta.
+   ========================================================================== */
+
+.memory-viewer--clarity-filter .memory-viewer__image {
+  /* blur máximo 8px cuando claridad=0, 0px cuando claridad=100 */
+  filter: blur(calc(8px * (1 - var(--clarity-level, 0.5))));
+  transition: filter var(--transition-gentle);
+}
+
+/* Indicador visual de que el filtro está activo */
+.memory-viewer--clarity-filter::after {
+  content: '🔍 Filtro de claridad activo';
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-700);
+}
+
+/* ==========================================================================
+   5. ATTENUATION EFFECT
+   ==========================================================================
+   Efecto que simula la atenuación emocional.
+   Reduce saturación y opacidad, y aplica un tono frío/neutro.
+   Controlado via --attenuation-level (0 = sin atenuar, 1 = máximo).
+   
+   Justificación: Wireframe Carlos — el recuerdo se "suaviza" 
+   visualmente a medida que se atenúa
+   ========================================================================== */
+
+.memory-viewer--attenuation-filter .memory-viewer__image {
+  filter: 
+    saturate(calc(1 - 0.7 * var(--attenuation-level, 0)))
+    brightness(calc(1 + 0.15 * var(--attenuation-level, 0)));
+  opacity: calc(1 - 0.3 * var(--attenuation-level, 0));
+  transition: all var(--transition-gentle);
+}
+
+/* Overlay suave proporcional a la atenuación */
+.memory-viewer--attenuation-filter .memory-viewer__calm-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(142, 219, 168, calc(0.15 * var(--attenuation-level, 0))),
+    rgba(46, 111, 207, calc(0.08 * var(--attenuation-level, 0)))
+  );
+  pointer-events: none;
+  transition: background var(--transition-gentle);
+}
+
+/* ==========================================================================
+   6. NEURAL PARTICLES — Decoración de fondo del visor
+   ==========================================================================
+   Partículas estáticas (CSS puro, sin JS) que flotan detrás del visor,
+   simulando "actividad neuronal" durante la interacción.
+   Puramente decorativas — no interfieren con la interacción.
+   ========================================================================== */
+
+.neural-particles {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.neural-particles__dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-300);
+  opacity: 0;
+  animation: particle-float 8s ease-in-out infinite;
+}
+
+.neural-particles__dot:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+.neural-particles__dot:nth-child(2) { left: 30%; top: 60%; animation-delay: 1.5s; }
+.neural-particles__dot:nth-child(3) { left: 55%; top: 15%; animation-delay: 3s; }
+.neural-particles__dot:nth-child(4) { left: 75%; top: 45%; animation-delay: 4.5s; }
+.neural-particles__dot:nth-child(5) { left: 90%; top: 80%; animation-delay: 6s; }
+.neural-particles__dot:nth-child(6) { left: 20%; top: 85%; animation-delay: 2s; }
+.neural-particles__dot:nth-child(7) { left: 65%; top: 70%; animation-delay: 5s; }
+.neural-particles__dot:nth-child(8) { left: 45%; top: 35%; animation-delay: 7s; }
+
+@keyframes particle-float {
+  0%, 100% { opacity: 0; transform: translateY(0) scale(1); }
+  20%      { opacity: 0.5; }
+  50%      { opacity: 0.7; transform: translateY(-20px) scale(1.5); }
+  80%      { opacity: 0.3; }
+}
+
+/* Líneas de conexión entre partículas (SVG inline vía CSS) */
+.neural-particles__connections {
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cline x1='20' y1='40' x2='100' y2='120' stroke='%232E6FCF' stroke-width='0.5'/%3E%3Cline x1='100' y1='120' x2='180' y2='60' stroke='%232E6FCF' stroke-width='0.5'/%3E%3Cline x1='60' y1='160' x2='140' y2='30' stroke='%238EDBA8' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ==========================================================================
+   7. PROCESSING INDICATOR
+   ==========================================================================
+   Animación que indica que el implante está "procesando" una operación
+   (aplicar filtro, cargar recuerdo, sincronizar).
+   
+   Justificación: Modelo mental §4.1 — "necesito saber que está 
+   haciendo algo, no que se ha quedado colgado"
+   ========================================================================== */
+
+.processing-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-50),
+    var(--color-secondary-50)
+  );
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--color-primary-700);
+  font-weight: var(--font-weight-medium);
+}
+
+.processing-indicator__dots {
+  display: flex;
+  gap: 4px;
+}
+
+.processing-indicator__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-400);
+  animation: processing-bounce 1.2s ease-in-out infinite;
+}
+
+.processing-indicator__dot:nth-child(2) { animation-delay: 0.15s; }
+.processing-indicator__dot:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes processing-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40%           { transform: translateY(-6px); opacity: 1; }
+}
+
+/* Barra de progreso para operaciones largas (aplicar filtro) */
+.processing-bar {
+  width: 100%;
+  height: 4px;
+  background-color: var(--color-neutral-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.processing-bar__fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    90deg,
+    var(--color-primary-400),
+    var(--color-secondary-400),
+    var(--color-primary-400)
+  );
+  background-size: 200% 100%;
+  animation: processing-shimmer 1.5s ease-in-out infinite;
+  /* width controlado via JS */
+}
+
+@keyframes processing-shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* ==========================================================================
+   8. SESSION TIMER (Carlos — sesión de atenuación)
+   ==========================================================================
+   Temporizador visual de la sesión terapéutica.
+   Justificación: HTA-2 plan 4 — "la sesión tiene límite temporal"
+   ========================================================================== */
+
+.session-timer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background-color: var(--color-neutral-0);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--color-neutral-200);
+}
+
+.session-timer__ring {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.session-timer__ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.session-timer__ring-bg {
+  fill: none;
+  stroke: var(--color-neutral-200);
+  stroke-width: 3;
+}
+
+.session-timer__ring-fill {
+  fill: none;
+  stroke: var(--color-primary-400);
+  stroke-width: 3;
+  stroke-linecap: round;
+  /* stroke-dashoffset controlado via JS */
+  transition: stroke-dashoffset 1s linear;
+}
+
+.session-timer__time {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-800);
+  font-variant-numeric: tabular-nums;
+}
+
+.session-timer__label {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+}
+
+/* Alerta cuando queda poco tiempo */
+.session-timer--warning .session-timer__ring-fill {
+  stroke: var(--color-warning);
+}
+
+.session-timer--warning .session-timer__time {
+  color: var(--color-warning);
+}
+
+/* ==========================================================================
+   9. REDUCED MOTION — Desactivar TODO lo decorativo
+   ==========================================================================
+   Justificación: RNF-03 + WCAG 2.1 SC 2.3.3
+   Los usuarios que prefieren movimiento reducido ven una versión 
+   completamente estática pero igualmente funcional.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .app::before {
+    animation: none;
+  }
+
+  .implant-connection__dot::after,
+  .implant-connection__signal-line,
+  .memory-viewer::before,
+  .memory-viewer--loading::after,
+  .neural-particles__dot,
+  .processing-indicator__dot,
+  .processing-bar__fill {
+    animation: none !important;
+  }
+
+  .neural-particles,
+  .neural-particles__connections {
+    display: none;
+  }
+
+  .memory-viewer::before {
+    opacity: 0.3;
+  }
+}

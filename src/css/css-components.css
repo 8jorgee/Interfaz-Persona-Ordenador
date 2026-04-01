@@ -1,0 +1,1070 @@
+/* ==========================================================================
+   MNEMOSYNE — Componentes de Interfaz
+   ==========================================================================
+   Cada componente incluye trazabilidad al artefacto DCU de origen.
+   
+   Índice:
+   1. Botones
+   2. Cards de Recuerdo (Memory Cards)
+   3. Barra de Búsqueda
+   4. Sliders (Claridad Facial / Atenuación Emocional)
+   5. Timeline Visual
+   6. Diálogos Modales (D-01 a D-06)
+   7. Tags y Badges
+   8. Indicadores de Bienestar
+   9. Panel de Control (Elena)
+   10. Tooltips
+   11. Empty States
+   ========================================================================== */
+
+/* ==========================================================================
+   1. BOTONES
+   ==========================================================================
+   Justificación DCU:
+   - Tamaño mínimo 56px → Persona María Luisa (02_personas.md)
+   - Icono + texto siempre → Principio de diseño de diálogos §5.2.4 
+     (03_dialogue_specification.md)
+   - Sin rojo en acciones normales → Principio §5.2.3
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  min-height: var(--touch-target-safe);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn__icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* --- Variante primaria --- */
+.btn--primary {
+  background-color: var(--color-primary-500);
+  color: var(--color-neutral-0);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-primary-600);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.btn--primary:active {
+  background-color: var(--color-primary-700);
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+/* --- Variante secundaria --- */
+.btn--secondary {
+  background-color: var(--color-neutral-0);
+  color: var(--color-neutral-700);
+  border: 1.5px solid var(--color-neutral-300);
+}
+
+.btn--secondary:hover {
+  background-color: var(--color-neutral-50);
+  border-color: var(--color-neutral-400);
+}
+
+.btn--secondary:active {
+  background-color: var(--color-neutral-100);
+}
+
+/* --- Variante de éxito (confirmar/guardar) --- */
+.btn--success {
+  background-color: var(--color-secondary-500);
+  color: var(--color-neutral-0);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--success:hover {
+  background-color: var(--color-secondary-600);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* --- Variante ghost (baja prominencia) --- */
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-neutral-600);
+}
+
+.btn--ghost:hover {
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-800);
+}
+
+/* --- Variante peligro (solo errores de sistema, NUNCA flujo normal) --- */
+.btn--danger {
+  background-color: var(--color-error);
+  color: var(--color-neutral-0);
+}
+
+/* --- Tamaño grande (para María Luisa) --- */
+.btn--lg {
+  padding: var(--space-4) var(--space-8);
+  min-height: 64px;
+  font-size: var(--font-size-md);
+  border-radius: var(--radius-lg);
+}
+
+/* --- Estado deshabilitado --- */
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --- Ripple effect sutil al hacer click --- */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 70%);
+  opacity: 0;
+  transform: scale(0);
+  transition: transform 0.4s ease-out, opacity 0.3s ease-out;
+}
+
+.btn:active::after {
+  opacity: 1;
+  transform: scale(2.5);
+  transition: 0s;
+}
+
+/* ==========================================================================
+   2. CARDS DE RECUERDO (Memory Cards)
+   ==========================================================================
+   Justificación DCU:
+   - Wireframe galería ML (04_wireframes.md): card con thumbnail, título, 
+     fecha, personas y nivel de claridad
+   - Tema 5 (02_research_findings.md): metáforas visuales → "foto con 
+     marco" → card con borde sutil y sombra
+   - Gap analysis §2.3: mostrar metadatos relevantes sin abrumar
+   ========================================================================== */
+
+.memory-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-neutral-0);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+.memory-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+.memory-card:active {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Thumbnail del recuerdo */
+.memory-card__thumbnail {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background-color: var(--color-neutral-200);
+  overflow: hidden;
+}
+
+.memory-card__thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.memory-card:hover .memory-card__thumbnail img {
+  transform: scale(1.04);
+}
+
+/* Indicador de intensidad emocional en el thumbnail
+   Justificación: wireframe_viewer_carlos.svg — borde coloreado 
+   según nivel emocional */
+.memory-card__emotion-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    var(--color-emotion-calm),
+    var(--color-emotion-neutral),
+    var(--color-emotion-intense)
+  );
+  /* La anchura real se controla con JS según el nivel */
+}
+
+.memory-card__emotion-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-neutral-200);
+  /* width se setea via style="--emotion-level: 70%" */
+  width: calc(100% - var(--emotion-level, 50%));
+}
+
+/* Cuerpo de la card */
+.memory-card__body {
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+.memory-card__title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-900);
+  line-height: var(--line-height-tight);
+  /* Truncar a 2 líneas */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.memory-card__date {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+}
+
+.memory-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-2);
+}
+
+/* Personas detectadas en el recuerdo */
+.memory-card__people {
+  display: flex;
+  align-items: center;
+}
+
+.memory-card__people-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-neutral-0);
+  margin-left: -8px;
+  background-color: var(--color-neutral-300);
+}
+
+.memory-card__people-avatar:first-child {
+  margin-left: 0;
+}
+
+/* Indicador de claridad facial
+   Justificación: HTA-1 subtarea 3 — "comprobar nivel de claridad actual" */
+.memory-card__clarity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: auto;
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+}
+
+.memory-card__clarity-dots {
+  display: flex;
+  gap: 3px;
+}
+
+.memory-card__clarity-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-neutral-200);
+}
+
+.memory-card__clarity-dot--filled {
+  background-color: var(--color-primary-400);
+}
+
+/* --- Variante María Luisa: más grande, texto más claro --- */
+.app[data-user="maria-luisa"] .memory-card__body {
+  padding: var(--space-5) var(--space-6);
+  gap: var(--space-3);
+}
+
+.app[data-user="maria-luisa"] .memory-card__title {
+  font-size: var(--font-size-md);
+}
+
+.app[data-user="maria-luisa"] .memory-card__date {
+  font-size: var(--font-size-base);
+}
+
+/* --- Variante Carlos: más sobria, sin zoom en hover --- */
+.app[data-user="carlos"] .memory-card:hover .memory-card__thumbnail img {
+  transform: none;
+}
+
+.app[data-user="carlos"] .memory-card:hover {
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   3. BARRA DE BÚSQUEDA
+   ==========================================================================
+   Justificación DCU:
+   - HTA-1 subtarea 1.2: búsqueda por nombre de persona, lugar o fecha
+   - Modelo mental ML §2.1: "buscar como en Google" → campo de texto 
+     prominente con icono de lupa
+   - BNF búsqueda (03_dialogue_specification.md): acepta texto libre 
+     + filtros opcionales
+   ========================================================================== */
+
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.search-bar__icon {
+  position: absolute;
+  left: var(--space-4);
+  width: 22px;
+  height: 22px;
+  color: var(--color-neutral-400);
+  pointer-events: none;
+  transition: color var(--transition-fast);
+}
+
+.search-bar__input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-12);
+  min-height: var(--touch-target-safe);
+  background-color: var(--color-neutral-0);
+  border: 1.5px solid var(--color-neutral-300);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  color: var(--color-neutral-900);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-xs);
+}
+
+.search-bar__input::placeholder {
+  color: var(--color-neutral-400);
+}
+
+.search-bar__input:hover {
+  border-color: var(--color-neutral-400);
+}
+
+.search-bar__input:focus {
+  border-color: var(--color-primary-400);
+  box-shadow: 0 0 0 3px var(--color-primary-50);
+  outline: none;
+}
+
+.search-bar__input:focus ~ .search-bar__icon {
+  color: var(--color-primary-500);
+}
+
+/* Botón de limpiar búsqueda */
+.search-bar__clear {
+  position: absolute;
+  right: var(--space-3);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  color: var(--color-neutral-400);
+  opacity: 0;
+  transition: all var(--transition-fast);
+}
+
+.search-bar__input:not(:placeholder-shown) ~ .search-bar__clear {
+  opacity: 1;
+}
+
+.search-bar__clear:hover {
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-600);
+}
+
+/* --- Variante María Luisa: campo más grande --- */
+.app[data-user="maria-luisa"] .search-bar__input {
+  min-height: 64px;
+  font-size: var(--font-size-md);
+  padding-left: var(--space-14, 3.5rem);
+  border-radius: var(--radius-xl);
+}
+
+.app[data-user="maria-luisa"] .search-bar__icon {
+  width: 28px;
+  height: 28px;
+}
+
+/* ==========================================================================
+   4. SLIDERS DE FILTRO
+   ==========================================================================
+   Justificación DCU:
+   - Slider de Claridad Facial (María Luisa): wireframe_viewer_marialuisa.svg
+     → "Poco clara" a "Muy clara" con descriptores verbales
+     → Gap analysis §2.1: metáfora de "gafas" / "lente"
+   - Slider de Atenuación Emocional (Carlos): wireframe_viewer_carlos.svg
+     → Con límite visible del terapeuta (HTA-2 punto crítico 4.6)
+     → Tema 3: gradualidad → feedback continuo del nivel
+   ========================================================================== */
+
+.filter-slider {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background-color: var(--color-neutral-0);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-slider__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filter-slider__label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-800);
+}
+
+.filter-slider__value {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary-600);
+  padding: var(--space-1) var(--space-3);
+  background-color: var(--color-primary-50);
+  border-radius: var(--radius-full);
+}
+
+/* Track del slider */
+.filter-slider__track-container {
+  position: relative;
+  padding: var(--space-2) 0;
+}
+
+.filter-slider__input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: var(--color-neutral-200);
+  border-radius: var(--radius-full);
+  outline: none;
+  cursor: pointer;
+}
+
+/* Track rellenado (se controla con JS via --slider-fill) */
+.filter-slider__input::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    to right,
+    var(--color-primary-400) 0%,
+    var(--color-primary-400) var(--slider-fill, 50%),
+    var(--color-neutral-200) var(--slider-fill, 50%),
+    var(--color-neutral-200) 100%
+  );
+}
+
+/* Thumb del slider */
+.filter-slider__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--color-neutral-0);
+  border: 3px solid var(--color-primary-500);
+  box-shadow: var(--shadow-md);
+  cursor: grab;
+  margin-top: -10px;
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.filter-slider__input::-webkit-slider-thumb:hover {
+  box-shadow: var(--shadow-lg), 0 0 0 6px var(--color-primary-50);
+  transform: scale(1.1);
+}
+
+.filter-slider__input::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  box-shadow: var(--shadow-md), 0 0 0 8px var(--color-primary-100);
+  transform: scale(1.05);
+}
+
+/* Firefox thumb */
+.filter-slider__input::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--color-neutral-0);
+  border: 3px solid var(--color-primary-500);
+  box-shadow: var(--shadow-md);
+  cursor: grab;
+}
+
+/* Descriptores verbales bajo el slider
+   Justificación: Modelo mental ML §2.1 — descriptores en lenguaje 
+   natural, no valores numéricos */
+.filter-slider__descriptors {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+}
+
+/* --- Slider de Claridad Facial (María Luisa) ---
+   Colores suaves, descriptores prominentes */
+.filter-slider--clarity .filter-slider__input::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    to right,
+    var(--color-neutral-300) 0%,
+    var(--color-primary-300) 50%,
+    var(--color-primary-500) 100%
+  );
+}
+
+.filter-slider--clarity .filter-slider__descriptors {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+/* --- Slider de Atenuación Emocional (Carlos) ---
+   Incluye marcador de límite del terapeuta */
+.filter-slider--attenuation {
+  border: 1.5px solid var(--color-neutral-200);
+}
+
+.filter-slider--attenuation .filter-slider__input::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    to right,
+    var(--color-emotion-intense) 0%,
+    var(--color-emotion-neutral) 50%,
+    var(--color-emotion-calm) 100%
+  );
+  height: 10px;
+}
+
+/* Marcador de límite del terapeuta
+   Justificación: HTA-2 punto crítico 4.6 — "el sistema impide 
+   superar el límite establecido por el profesional" 
+   Diálogo D-04: "Has llegado al límite de atenuación" */
+.filter-slider__limit-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  /* left se setea via JS: style="--limit-position: 75%" */
+  left: var(--limit-position, 75%);
+  width: 3px;
+  background-color: var(--color-warning);
+  border-radius: var(--radius-full);
+  z-index: 1;
+}
+
+.filter-slider__limit-marker::before {
+  content: attr(data-label);
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: var(--font-size-xs);
+  color: var(--color-warning);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ==========================================================================
+   5. TIMELINE VISUAL
+   ==========================================================================
+   Justificación DCU:
+   - Wireframe galería (04_wireframes.md): vista alternativa a la grid, 
+     organizada cronológicamente
+   - Modelo mental ML §2.2: "los recuerdos tienen un orden temporal, 
+     como un álbum de fotos"
+   - Escenario E-01: María Luisa busca un recuerdo "de la Navidad pasada"
+   ========================================================================== */
+
+.timeline {
+  position: relative;
+  padding-left: var(--space-10);
+}
+
+/* Línea vertical */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-primary-200),
+    var(--color-neutral-200)
+  );
+}
+
+.timeline__group {
+  margin-bottom: var(--space-8);
+}
+
+.timeline__group-label {
+  position: relative;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-600);
+  margin-bottom: var(--space-4);
+  padding-left: var(--space-2);
+}
+
+/* Nodo en la línea temporal */
+.timeline__group-label::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--space-10) + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-400);
+  border: 3px solid var(--color-neutral-0);
+  box-shadow: var(--shadow-sm);
+}
+
+.timeline__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Item inline de timeline (más compacto que una card) */
+.timeline__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-neutral-0);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.timeline__item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateX(4px);
+}
+
+.timeline__item-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  background-color: var(--color-neutral-200);
+  flex-shrink: 0;
+}
+
+.timeline__item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.timeline__item-title {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-neutral-800);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.timeline__item-date {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+}
+
+/* ==========================================================================
+   6. DIÁLOGOS MODALES (D-01 a D-06)
+   ==========================================================================
+   Justificación DCU: 03_dialogue_specification.md §5
+   - D-01: Confirmar filtro claridad
+   - D-02: Guardar filtro atenuación
+   - D-03: Cambio brusco de slider
+   - D-04: Límite de terapeuta alcanzado
+   - D-05: Inactividad en sesión ("¿Todo bien?")
+   - D-06: Salir de sesión de atenuación
+   
+   Principios §5.2: lenguaje natural, acción reversible visible, 
+   sin rojo en flujo normal, botones con icono+texto, max 2 opciones
+   ========================================================================== */
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  text-align: center;
+}
+
+.dialog__icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xl);
+}
+
+.dialog__icon--confirm {
+  background-color: var(--color-primary-50);
+}
+
+.dialog__icon--warning {
+  background-color: #FFF3E0;
+}
+
+.dialog__icon--wellbeing {
+  background-color: var(--color-secondary-50);
+}
+
+.dialog__title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-900);
+}
+
+.dialog__message {
+  font-size: var(--font-size-base);
+  color: var(--color-neutral-600);
+  line-height: var(--line-height-relaxed);
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+/* No más de 2 botones — Hick-Hyman Law (principio §5.2.6) */
+.dialog__actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+.dialog__actions .btn {
+  flex: 1;
+  max-width: 200px;
+}
+
+/* Variante bienestar (D-05: "¿Todo bien?")
+   Más suave y acogedora */
+.dialog--wellbeing {
+  background-color: var(--color-secondary-50);
+  border: 1px solid var(--color-secondary-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+}
+
+.dialog--wellbeing .dialog__message {
+  color: var(--color-neutral-700);
+}
+
+/* ==========================================================================
+   7. TAGS Y BADGES
+   ========================================================================== */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  min-height: 28px;
+}
+
+.tag--person {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-700);
+}
+
+.tag--place {
+  background-color: #FFF3E0;
+  color: #E65100;
+}
+
+.tag--date {
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-700);
+}
+
+.tag--emotion {
+  background-color: var(--color-secondary-50);
+  color: var(--color-secondary-700);
+}
+
+/* Badge numérico (notificaciones Elena) */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  background-color: var(--color-error);
+  color: var(--color-neutral-0);
+}
+
+/* ==========================================================================
+   8. INDICADOR DE BIENESTAR (Carlos)
+   ==========================================================================
+   Justificación DCU:
+   - wireframe_viewer_carlos.svg: indicador de bienestar con emoji + 
+     descripción textual
+   - Tema 3 (02_research_findings.md): feedback continuo del estado 
+     emocional durante la sesión
+   - HTA-2 subtarea 4.5: "monitorizar nivel de malestar"
+   ========================================================================== */
+
+.wellbeing-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background-color: var(--color-neutral-0);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.wellbeing-indicator__emoji {
+  font-size: var(--font-size-xl);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.wellbeing-indicator__info {
+  flex: 1;
+}
+
+.wellbeing-indicator__label {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  margin-bottom: var(--space-1);
+}
+
+.wellbeing-indicator__bar {
+  height: 6px;
+  background-color: var(--color-neutral-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.wellbeing-indicator__fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width var(--transition-gentle), background-color var(--transition-gentle);
+  /* Color y anchura controlados por JS */
+}
+
+.wellbeing-indicator__text {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  margin-top: var(--space-1);
+}
+
+/* ==========================================================================
+   9. PANEL DE CONTROL (Elena — Dashboard de Cuidadora)
+   ==========================================================================
+   Justificación DCU:
+   - Wireframe Elena (04_wireframes.md): dashboard con vista general 
+     del estado del paciente
+   - HTA-3: tareas de configuración y monitorización
+   - Escenario E-03: Elena configura límites para su madre
+   ========================================================================== */
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  background-color: var(--color-neutral-0);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-card__label {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+  font-weight: var(--font-weight-medium);
+}
+
+.stat-card__value {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-900);
+}
+
+.stat-card__trend {
+  font-size: var(--font-size-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.stat-card__trend--up {
+  color: var(--color-secondary-600);
+}
+
+.stat-card__trend--down {
+  color: var(--color-warning);
+}
+
+/* Tabla de actividad del paciente */
+.activity-log {
+  width: 100%;
+  text-align: left;
+}
+
+.activity-log th {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 2px solid var(--color-neutral-200);
+}
+
+.activity-log td {
+  font-size: var(--font-size-sm);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-neutral-100);
+  color: var(--color-neutral-700);
+}
+
+.activity-log tr:hover td {
+  background-color: var(--color-neutral-50);
+}
+
+/* ==========================================================================
+   10. TOOLTIPS
+   ==========================================================================
+   Justificación: Gap analysis §3.1 — "ayuda contextual" para conceptos 
+   desconocidos. Tooltips informativos, no intrusivos.
+   ========================================================================== */
+
+.tooltip-trigger {
+  position: relative;
+  cursor: help;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+}
+
+.tooltip-trigger::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-neutral-800);
+  color: var(--color-neutral-0);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  max-width: 280px;
+  white-space: normal;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-fast);
+  z-index: var(--z-tooltip);
+  pointer-events: none;
+  box-shadow: var(--shadow-lg);
+}
+
+.tooltip-trigger:hover::after,
+.tooltip-trigger:focus::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ==========================================================================
+   11. EMPTY STATES
+   ==========================================================================
+   Justificación: STD de navegación global (03_dialogue_specification.md)
+   — estado "sin resultados" tras una búsqueda.
+   ========================================================================== */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-8);
+  text-align: center;
+  gap: var(--space-4);
+}
+
+.empty-state__icon {
+  font-size: 3rem;
+  opacity: 0.5;
+}
+
+.empty-state__title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-700);
+}
+
+.empty-state__description {
+  font-size: var(--font-size-base);
+  color: var(--color-neutral-500);
+  max-width: 400px;
+  line-height: var(--line-height-relaxed);
+}
