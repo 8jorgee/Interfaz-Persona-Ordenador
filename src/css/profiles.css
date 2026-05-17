@@ -1,0 +1,337 @@
+/* ==========================================================================
+   MNEMOSYNE — Profiles CSS  |  profiles.css
+   Per-profile accessibility overrides via [data-user] attribute
+   Three Experiences, One System
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   MARÍA LUISA — Patient / Alzheimer mild
+   Large text, warm palette, generous spacing, extra touch targets
+   02_personas.md: 72 años, dificultad visual, nivel tecnológico bajo
+   -------------------------------------------------------------------------- */
+
+[data-user="maria-luisa"] {
+  /* Warm surface override */
+  --bg-base:    #0A0808;
+  --bg-surface: #100D0D;
+  --bg-card:    #1A1212;
+  --bg-sidebar: #0D0A0A;
+
+  /* Warm accent shift */
+  --cyan:       #FFB347;    /* Amber-warm instead of cold cyan */
+  --cyan-dim:   rgba(255, 179, 71, 0.15);
+  --cyan-glow:  rgba(255, 179, 71, 0.35);
+  --border:     rgba(255, 179, 71, 0.12);
+  --border-hover: rgba(255, 179, 71, 0.35);
+  --text-accent: #FFB347;
+
+  /* Large text */
+  --text-xs:   0.875rem;   /* 14px (was 11px) */
+  --text-sm:   1rem;       /* 16px (was 13px) */
+  --text-base: 1.125rem;   /* 18px (was 15px) */
+  --text-md:   1.313rem;   /* 21px (was 17px) */
+  --text-lg:   1.563rem;   /* 25px (was 20px) */
+  --text-xl:   1.875rem;   /* 30px (was 24px) */
+
+  /* Wider sidebar */
+  --sidebar-w: 320px;
+
+  /* Extra touch targets */
+  --touch-min:  56px;
+  --touch-safe: 64px;
+
+  /* Relaxed line height */
+  --line-height: 1.75;
+}
+
+/* 2-column max card grid */
+[data-user="maria-luisa"] .memory-grid {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+/* Bigger nav items */
+[data-user="maria-luisa"] .sidebar-nav-item {
+  min-height: 56px;
+  font-size: var(--text-base);
+  padding: var(--sp-4) var(--sp-5);
+}
+
+/* Bigger cards */
+[data-user="maria-luisa"] .memory-card {
+  padding: var(--sp-6);
+}
+
+[data-user="maria-luisa"] .memory-card-title {
+  font-size: var(--text-md);
+}
+
+/* Bigger buttons */
+[data-user="maria-luisa"] .btn {
+  min-height: 56px;
+  font-size: var(--text-base);
+  padding: var(--sp-4) var(--sp-6);
+}
+
+/* Bigger filter chips */
+[data-user="maria-luisa"] .filter-chip {
+  min-height: 44px;
+  font-size: var(--text-sm);
+  padding: var(--sp-2) var(--sp-4);
+}
+
+/* Safety message always visible */
+[data-user="maria-luisa"] .safety-msg {
+  display: flex;
+}
+
+/* Confirmation dialogs — always show extra confirm step */
+[data-user="maria-luisa"] .dialog-confirm-step {
+  display: block;
+}
+
+/* Warm glow on scrollbar */
+[data-user="maria-luisa"] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 179, 71, 0.2);
+}
+[data-user="maria-luisa"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 179, 71, 0.4);
+}
+
+/* Hide advanced features */
+[data-user="maria-luisa"] .attenuation-section,
+[data-user="maria-luisa"] .stats-section,
+[data-user="maria-luisa"] .export-btn,
+[data-user="maria-luisa"] .nav-item--dashboard {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   CARLOS — Patient / PTSD
+   Reduced motion, neutral palette, minimal distractions, safety controls
+   02_personas.md: 38 años, programador, sensible a estimulación visual
+   -------------------------------------------------------------------------- */
+
+[data-user="carlos"] {
+  /* Neutral cool shift */
+  --bg-base:    #060810;
+  --bg-surface: #0C0F1A;
+  --bg-card:    #101525;
+  --bg-sidebar: #080B14;
+
+  /* Standard font size */
+  --text-base: 0.938rem;
+
+  /* Normal sidebar */
+  --sidebar-w: 280px;
+}
+
+/* Disable all animations for carlos */
+[data-user="carlos"] *,
+[data-user="carlos"] *::before,
+[data-user="carlos"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 120ms !important;  /* Keep minimal transitions for feedback */
+}
+
+/* Except the neural bars — keep pulsing for status feedback */
+[data-user="carlos"] .neural-bar {
+  animation-duration: 1.8s !important;
+  animation-iteration-count: infinite !important;
+}
+
+/* Emergency exit button — always visible, prominent */
+[data-user="carlos"] .emergency-exit {
+  display: flex !important;
+  position: fixed;
+  bottom: var(--sp-6);
+  right: var(--sp-6);
+  z-index: calc(var(--z-toast) + 1);
+  background: var(--alert);
+  color: white;
+  border-radius: var(--radius-full);
+  padding: var(--sp-3) var(--sp-5);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-glow-alert);
+  min-height: var(--touch-safe);
+  min-width: 120px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+}
+
+/* Session progress bar */
+[data-user="carlos"] .session-progress {
+  display: flex !important;
+}
+
+/* Therapeutic limit marker on attenuation slider */
+[data-user="carlos"] .slider-limit-marker {
+  display: block !important;
+}
+
+/* Therapist info in drawer */
+[data-user="carlos"] .therapist-info {
+  display: flex !important;
+}
+
+/* Wellbeing check dialog style */
+[data-user="carlos"] .wellbeing-dialog {
+  border-color: var(--violet);
+  box-shadow: var(--shadow-glow-violet);
+}
+
+/* Session summary visible */
+[data-user="carlos"] .session-summary {
+  display: block !important;
+}
+
+/* Stats section visible for carlos */
+[data-user="carlos"] .stats-section,
+[data-user="carlos"] .nav-item--dashboard {
+  display: flex !important;
+}
+
+/* 3-column grid */
+[data-user="carlos"] .memory-grid {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+/* --------------------------------------------------------------------------
+   ELENA — Caregiver
+   Dense info display, functional aesthetic, management tools
+   02_personas.md: 49 años, competente digital, gestiona cuidado de mamá
+   -------------------------------------------------------------------------- */
+
+[data-user="elena"] {
+  /* Functional green accent */
+  --cyan:       #00C896;
+  --cyan-dim:   rgba(0, 200, 150, 0.15);
+  --cyan-glow:  rgba(0, 200, 150, 0.35);
+  --border:     rgba(0, 200, 150, 0.12);
+  --border-hover: rgba(0, 200, 150, 0.35);
+  --text-accent: #00C896;
+
+  /* Compact text */
+  --text-xs:   0.625rem;   /* 10px */
+  --text-sm:   0.75rem;    /* 12px */
+  --text-base: 0.875rem;   /* 14px */
+  --text-md:   1rem;       /* 16px */
+
+  /* Narrow sidebar — more space for data */
+  --sidebar-w: 240px;
+}
+
+/* Dense 4-column grid */
+[data-user="elena"] .memory-grid {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--sp-3);
+}
+
+/* Compact cards */
+[data-user="elena"] .memory-card {
+  padding: var(--sp-3) var(--sp-4);
+}
+
+[data-user="elena"] .memory-card-title {
+  font-size: var(--text-sm);
+}
+
+[data-user="elena"] .memory-card-meta {
+  font-size: var(--text-xs);
+}
+
+/* Compact nav */
+[data-user="elena"] .sidebar-nav-item {
+  min-height: 40px;
+  font-size: var(--text-sm);
+  padding: var(--sp-2) var(--sp-4);
+}
+
+/* All management features visible */
+[data-user="elena"] .stats-section,
+[data-user="elena"] .export-btn,
+[data-user="elena"] .nav-item--dashboard,
+[data-user="elena"] .nav-item--settings,
+[data-user="elena"] .limit-config-section,
+[data-user="elena"] .caregiver-controls {
+  display: flex !important;
+}
+
+/* "Viewing as" banner for Elena (caregiving context) */
+[data-user="elena"] .managed-user-banner {
+  display: flex !important;
+  background: var(--cyan-dim);
+  border: 1px solid var(--border);
+  padding: var(--sp-2) var(--sp-4);
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  color: var(--text-accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Dashboard grid — denser for Elena */
+[data-user="elena"] .dashboard-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-3);
+}
+
+/* Compact scrollbar for elena */
+[data-user="elena"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 200, 150, 0.2);
+}
+[data-user="elena"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 200, 150, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   SHARED — Elements hidden by default, shown per profile above
+   -------------------------------------------------------------------------- */
+
+.emergency-exit,
+.safety-msg,
+.session-progress,
+.session-summary,
+.therapist-info,
+.managed-user-banner,
+.caregiver-controls,
+.limit-config-section,
+.dialog-confirm-step {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   ATTENUATION LIMIT MARKER
+   Position driven by JS via --limit-pct CSS var
+   -------------------------------------------------------------------------- */
+.slider-limit-marker {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: var(--limit-pct, 75%);
+  transform: translate(-50%, -50%);
+  width: 3px;
+  height: 20px;
+  background: var(--alert);
+  border-radius: 2px;
+  box-shadow: 0 0 6px var(--alert-glow);
+  pointer-events: none;
+}
+
+.slider-limit-marker::after {
+  content: 'LÍM';
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  color: var(--alert);
+  white-space: nowrap;
+}

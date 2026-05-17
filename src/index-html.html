@@ -1,1218 +1,381 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Mnemosyne — Editor de Recuerdos. Panel de control para el implante neuronal NeuroLink V4.">
-  <meta name="theme-color" content="#4A90D9">
-  <title>Mnemosyne — Editor de Recuerdos</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mnemosyne — NeuroLink V4</title>
+  <meta name="description" content="Sistema de gestión de memoria neural — NeuroLink V4" />
 
-  <!-- Fuente: Inter (Google Fonts) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Display + Data + Mono + Body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Oxanium:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet" />
 
-  <!-- CSS (Commit 8) -->
-  <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/views.css">
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/profiles.css" />
 </head>
+<body>
 
-<body data-view="alzheimer">
-  <!--
-    ====================================================================
-    MNEMOSYNE — ESTRUCTURA HTML SEMÁNTICA
-    ====================================================================
-    Arquitectura: "Tres Experiencias, Un Sistema" (Alternativa C)
-    Ref: 04_design_alternatives.md, 05_interaction_flow.md
+  <!-- ======================================================================
+       PROFILE SELECTOR
+       Shown on startup and after logout. Hidden once user is selected.
+       ====================================================================== -->
+  <section id="profile-selector" class="profile-selector" aria-label="Selección de perfil">
 
-    data-view="alzheimer" | "therapeutic" | "caregiver"
-    Controla qué secciones son visibles y el estilo global.
-    ====================================================================
-  -->
-
-  <!-- ============================================================== -->
-  <!-- SKIP LINK — Accesibilidad (WCAG 2.4.1)                         -->
-  <!-- Ref: 06_accessibility.md §2.2                                   -->
-  <!-- ============================================================== -->
-  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
-
-
-  <!-- ============================================================== -->
-  <!-- PANTALLA DE SELECCIÓN DE VISTA (Inicio simulado)                -->
-  <!-- Ref: 05_interaction_flow.md §2.1 — Entry point                 -->
-  <!-- ============================================================== -->
-  <section id="view-selector" class="view-selector" role="region" aria-label="Selección de perfil">
-    <div class="view-selector__container">
-      <div class="view-selector__brand">
-        <h1 class="view-selector__title">Mnemosyne</h1>
-        <p class="view-selector__subtitle">Editor de Recuerdos · NeuroLink V4</p>
+    <div class="ps-header">
+      <div class="ps-logo">
+        <div class="ps-logo-glyph" aria-hidden="true">◉</div>
+        <div class="ps-logo-text">
+          <span class="ps-logo-name">MNEMOSYNE</span>
+          <span class="ps-logo-sub">NeuroLink V4 · 4.2.1</span>
+        </div>
       </div>
-
-      <h2 class="view-selector__prompt">¿Quién va a usar Mnemosyne?</h2>
-
-      <div class="view-selector__options" role="group" aria-label="Perfiles disponibles">
-        <!-- Persona 1: María Luisa -->
-        <button class="view-selector__card" data-target="alzheimer" aria-describedby="desc-alzheimer">
-          <span class="view-selector__avatar" aria-hidden="true">👵</span>
-          <span class="view-selector__name">María Luisa</span>
-          <span class="view-selector__role" id="desc-alzheimer">Mis recuerdos</span>
-        </button>
-
-        <!-- Persona 2: Carlos -->
-        <button class="view-selector__card" data-target="therapeutic" aria-describedby="desc-therapeutic">
-          <span class="view-selector__avatar" aria-hidden="true">👨</span>
-          <span class="view-selector__name">Carlos</span>
-          <span class="view-selector__role" id="desc-therapeutic">Mis sesiones</span>
-        </button>
-
-        <!-- Persona 3: Elena (Cuidadora) -->
-        <button class="view-selector__card" data-target="caregiver" aria-describedby="desc-caregiver">
-          <span class="view-selector__avatar" aria-hidden="true">👩‍⚕️</span>
-          <span class="view-selector__name">Elena</span>
-          <span class="view-selector__role" id="desc-caregiver">Panel de cuidador</span>
-        </button>
-      </div>
+      <p class="ps-tagline">Sistema de Gestión de Memoria Neural</p>
     </div>
-  </section>
+
+    <div id="profile-grid" class="ps-grid" role="list" aria-label="Perfiles disponibles">
+      <!-- Rendered by ui.js: showProfileSelector() -->
+    </div>
+
+    <p class="ps-footer-note">
+      🔒 Todos los recuerdos originales se conservan siempre.
+    </p>
+
+  </section><!-- /profile-selector -->
 
 
-  <!-- ============================================================== -->
-  <!--                                                                 -->
-  <!--   VISTA 1: PACIENTE-ALZHEIMER (María Luisa)                     -->
-  <!--   Ref: 04_wireframes.md §2, 05_interaction_flow.md §3           -->
-  <!--                                                                 -->
-  <!-- ============================================================== -->
-  <div id="view-alzheimer" class="view view--alzheimer" hidden>
+  <!-- ======================================================================
+       APP SHELL
+       Hidden until a profile is selected. data-user set by JS.
+       ====================================================================== -->
+  <div id="app" class="app" style="display: none;" aria-label="Mnemosyne">
 
-    <!-- ─── HEADER ─── -->
-    <!-- Ref: wireframe Dashboard ML; Style Guide §6.1 -->
-    <header class="header header--alzheimer" role="banner">
-      <div class="header__inner">
-        <button class="header__back" aria-label="Volver" hidden>
-          <span aria-hidden="true">←</span>
-          <span>Volver</span>
-        </button>
-        <h1 class="header__title">Mnemosyne</h1>
-        <p class="header__greeting" aria-live="polite">
-          Buenas tardes, <strong>María Luisa</strong>
-        </p>
+    <!-- ------------------------------------------------------------------
+         SIDEBAR
+         ------------------------------------------------------------------ -->
+    <aside class="sidebar" id="sidebar" aria-label="Panel de navegación">
+
+      <!-- Logo -->
+      <div class="sidebar-logo">
+        <span class="sidebar-logo-glyph" aria-hidden="true">◉</span>
+        <span class="sidebar-logo-text">MNEMOSYNE</span>
       </div>
-    </header>
 
-    <!-- ─── MAIN ─── -->
-    <main id="main-content" class="main main--alzheimer" role="main">
+      <!-- User badge -->
+      <div class="sidebar-user" id="user-badge">
+        <span class="user-badge-avatar" aria-hidden="true">👤</span>
+        <div class="user-badge-info">
+          <span class="user-badge-name">–</span>
+          <span class="user-badge-role">–</span>
+        </div>
+      </div>
 
-      <!-- === PANTALLA: Dashboard === -->
-      <!-- Ref: wireframe §2.1; STD §3.1 estado DASHBOARD -->
-      <section id="alz-dashboard" class="screen screen--active" aria-label="Inicio">
+      <!-- Managed user banner (Elena only) -->
+      <div id="managed-user-banner" class="managed-user-banner" aria-live="polite">
+        <span class="managed-user-icon" aria-hidden="true">⚕</span>
+        Gestionando: <strong class="managed-user-name"></strong>
+      </div>
 
-        <!-- Barra de búsqueda -->
-        <!-- Ref: HTA-1 tarea 1.1-1.2; punto crítico 1.2 (alternativa a búsqueda) -->
-        <div class="search-bar" role="search">
-          <label for="alz-search-input" class="sr-only">Buscar un recuerdo</label>
-          <span class="search-bar__icon" aria-hidden="true">🔍</span>
+      <!-- Welcome message -->
+      <p id="sidebar-welcome" class="sidebar-welcome" aria-live="polite"></p>
+
+      <!-- Search -->
+      <div class="sidebar-search">
+        <label for="search-input" class="sr-only">Buscar recuerdos</label>
+        <div class="search-field">
+          <svg class="search-field__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="9.9" y1="9.9" x2="14" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
           <input
             type="search"
-            id="alz-search-input"
-            class="search-bar__input"
-            placeholder="Buscar un recuerdo..."
+            id="search-input"
+            class="search-field__input"
+            placeholder="Buscar recuerdo..."
             autocomplete="off"
-          >
-        </div>
-
-        <!-- Personas favoritas -->
-        <!-- Ref: wireframe §2.1 "Tus personas favoritas"; alternativa a búsqueda textual -->
-        <!-- Justificación: HTA-1 punto crítico 1.2, Modelo Mental ML §2.1 -->
-        <section class="section" aria-labelledby="alz-people-title">
-          <h2 id="alz-people-title" class="section__title">Tus personas favoritas</h2>
-          <div class="people-grid" role="list" aria-label="Personas favoritas">
-            <!-- JS poblará dinámicamente (Commit 11) -->
-            <!-- Estructura de cada item:
-            <article class="person-card" role="listitem" tabindex="0" data-person-id="...">
-              <div class="person-card__avatar">
-                <img src="..." alt="Foto de [nombre]">
-              </div>
-              <span class="person-card__name">[Nombre]</span>
-            </article>
-            -->
-          </div>
-        </section>
-
-        <!-- Recuerdos favoritos -->
-        <!-- Ref: wireframe §2.1 "Recuerdos favoritos"; RNF-05 (máx 3 acciones) -->
-        <section class="section" aria-labelledby="alz-favorites-title">
-          <h2 id="alz-favorites-title" class="section__title">Recuerdos favoritos</h2>
-          <div class="memory-grid memory-grid--large" role="list" aria-label="Recuerdos favoritos">
-            <!-- JS poblará dinámicamente (Commit 11) -->
-            <!-- Estructura de cada item:
-            <article class="memory-card memory-card--large" role="listitem" tabindex="0" data-memory-id="...">
-              <div class="memory-card__thumbnail">
-                <img src="..." alt="[Descripción del recuerdo]">
-                <span class="memory-card__filter-badge" aria-label="Filtro activo al X%">🔵 X%</span>
-              </div>
-              <div class="memory-card__info">
-                <h3 class="memory-card__title">[Título]</h3>
-                <p class="memory-card__meta">
-                  <span aria-label="Fecha">[fecha]</span> ·
-                  <span aria-label="Personas">[n] personas</span>
-                </p>
-              </div>
-            </article>
-            -->
-          </div>
-        </section>
-      </section>
-
-      <!-- === PANTALLA: Galería (resultados de búsqueda / filtrados) === -->
-      <!-- Ref: wireframe §2.2; STD T05-T09 -->
-      <section id="alz-gallery" class="screen" aria-label="Galería de recuerdos" hidden>
-        <h2 id="alz-gallery-title" class="screen__title" aria-live="polite">
-          <!-- Título dinámico: "Recuerdos con Lucía" / "Resultados para 'boda'" -->
-        </h2>
-
-        <div class="memory-grid memory-grid--large" role="list" aria-label="Resultados">
-          <!-- JS poblará dinámicamente -->
-        </div>
-
-        <!-- Estado vacío -->
-        <!-- Ref: 05_interaction_flow.md §6.1 -->
-        <div class="empty-state" hidden>
-          <p class="empty-state__message">No se encontraron recuerdos.</p>
-          <p class="empty-state__hint">Prueba con otro nombre o fecha.</p>
-          <button class="btn btn--secondary empty-state__action">Volver a buscar</button>
-        </div>
-
-        <button class="btn btn--ghost load-more" hidden>Ver más ↓</button>
-      </section>
-
-      <!-- === PANTALLA: Visor de Recuerdo + Panel de Filtros === -->
-      <!-- Ref: wireframe §2.3; HTA-1 tareas 2-4; STD T10-T18 -->
-      <section id="alz-viewer" class="screen" aria-label="Visor de recuerdo" hidden>
-
-        <!-- Imagen del recuerdo -->
-        <!-- Ref: wireframe §2.3; HTA-1 tarea 2.1 (mín. 60% viewport) -->
-        <div class="viewer" role="region" aria-label="Imagen del recuerdo">
-          <div class="viewer__image-container">
-            <img
-              id="alz-viewer-img"
-              class="viewer__image"
-              src=""
-              alt=""
-            >
-            <!-- Badge de filtro activo (RF-10) -->
-            <span class="viewer__filter-badge" aria-label="" hidden>
-              🔵 <span class="viewer__filter-value"></span>
-            </span>
-          </div>
-        </div>
-
-        <!-- Metadatos del recuerdo -->
-        <!-- Ref: RF-07; wireframe §2.3; RNF-01 (≥18px) -->
-        <div class="viewer__metadata" role="region" aria-label="Información del recuerdo">
-          <h2 id="alz-viewer-title" class="viewer__title"><!-- Título dinámico --></h2>
-          <p class="viewer__date">
-            <span aria-hidden="true">📅</span>
-            <span class="viewer__date-text"><!-- Fecha --></span>
-          </p>
-          <p class="viewer__location">
-            <span aria-hidden="true">📍</span>
-            <span class="viewer__location-text"><!-- Lugar --></span>
-          </p>
-          <p class="viewer__people">
-            <span aria-hidden="true">👥</span>
-            <span class="viewer__people-text"><!-- Personas --></span>
-          </p>
-        </div>
-
-        <!-- Panel de filtro: Claridad Facial -->
-        <!-- Ref: wireframe §2.3; HTA-1 tarea 3; Microinteracción §2 -->
-        <!-- Justificación: Tema 1 (angustia no-reconocimiento), Modelo Mental §2.1 -->
-        <div class="filter-panel" role="region" aria-label="Control de Claridad Facial">
-          <h3 class="filter-panel__title">Claridad Facial</h3>
-
-          <div class="slider-container">
-            <span class="slider__label-min" aria-hidden="true">Poco clara</span>
-
-            <div class="slider-wrapper">
-              <div
-                id="alz-clarity-slider"
-                class="slider"
-                role="slider"
-                aria-label="Claridad Facial"
-                aria-valuenow="0"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-valuetext="0 por ciento, poco clara"
-                tabindex="0"
-              >
-                <div class="slider__track">
-                  <div class="slider__fill"></div>
-                </div>
-                <div class="slider__thumb" aria-hidden="true"></div>
-              </div>
-
-              <!-- Indicador numérico -->
-              <!-- Ref: Modelo Mental §2.2 (representación dual); Microinteracción §2 -->
-              <output class="slider__output" for="alz-clarity-slider" aria-live="polite">
-                <span class="slider__percentage">0%</span>
-              </output>
-            </div>
-
-            <span class="slider__label-max" aria-hidden="true">Muy clara</span>
-          </div>
-
-          <!-- Mensaje de reversibilidad permanente -->
-          <!-- Ref: Gap §5.1 "Miedo a romper"; Tema 6 (ética: reversibilidad) -->
-          <p class="filter-panel__safety-message" role="note">
-            <span aria-hidden="true">ℹ️</span>
-            El recuerdo original siempre se conserva
-          </p>
-
-          <!-- Botones de acción -->
-          <!-- Ref: Diálogos §5.2 (máx 2 opciones); wireframe §2.3 -->
-          <div class="filter-panel__actions">
-            <button class="btn btn--primary btn--save" disabled>
-              <span aria-hidden="true">💾</span>
-              Guardar ajuste
-            </button>
-            <button class="btn btn--secondary btn--undo" disabled>
-              <span aria-hidden="true">↩</span>
-              Deshacer
-            </button>
-          </div>
-        </div>
-
-        <!-- Región live para feedback del slider -->
-        <!-- Ref: 06_accessibility.md §4.5 -->
-        <div id="alz-slider-announce" aria-live="polite" aria-atomic="true" class="sr-only"></div>
-      </section>
-
-      <!-- === PANTALLA: Ajustes (simplificado) === -->
-      <section id="alz-settings" class="screen" aria-label="Ajustes" hidden>
-        <h2 class="screen__title">Ajustes</h2>
-
-        <div class="settings-group">
-          <label for="alz-font-size" class="settings__label">Tamaño del texto</label>
-          <div
-            id="alz-font-size"
-            class="slider slider--simple"
-            role="slider"
-            aria-label="Tamaño del texto"
-            aria-valuenow="2"
-            aria-valuemin="1"
-            aria-valuemax="3"
-            aria-valuetext="Normal"
-            tabindex="0"
-          >
-            <div class="slider__track"><div class="slider__fill"></div></div>
-            <div class="slider__thumb" aria-hidden="true"></div>
-          </div>
-          <div class="settings__options" aria-hidden="true">
-            <span>Pequeño</span>
-            <span>Normal</span>
-            <span>Grande</span>
-          </div>
-        </div>
-
-        <div class="settings-group">
-          <span class="settings__label" id="alz-sound-label">Sonido</span>
-          <button
-            class="toggle"
-            role="switch"
-            aria-checked="true"
-            aria-labelledby="alz-sound-label"
-          >
-            <span class="toggle__track">
-              <span class="toggle__thumb"></span>
-            </span>
-            <span class="toggle__text">Activado</span>
-          </button>
-        </div>
-      </section>
-    </main>
-
-    <!-- ─── NAVEGACIÓN INFERIOR ─── -->
-    <!-- Ref: wireframe §2.1 (3 opciones máximo); RNF-05 -->
-    <nav class="nav-bottom nav-bottom--alzheimer" role="navigation" aria-label="Navegación principal">
-      <ul class="nav-bottom__list">
-        <li>
-          <button class="nav-bottom__item nav-bottom__item--active" data-screen="alz-dashboard" aria-current="page">
-            <span class="nav-bottom__icon" aria-hidden="true">🏠</span>
-            <span class="nav-bottom__label">Inicio</span>
-          </button>
-        </li>
-        <li>
-          <button class="nav-bottom__item" data-screen="alz-gallery">
-            <span class="nav-bottom__icon" aria-hidden="true">📷</span>
-            <span class="nav-bottom__label">Galería</span>
-          </button>
-        </li>
-        <li>
-          <button class="nav-bottom__item" data-screen="alz-settings">
-            <span class="nav-bottom__icon" aria-hidden="true">⚙</span>
-            <span class="nav-bottom__label">Ajustes</span>
-          </button>
-        </li>
-      </ul>
-    </nav>
-  </div>
-
-
-  <!-- ============================================================== -->
-  <!--                                                                 -->
-  <!--   VISTA 2: PACIENTE-TERAPÉUTICA (Carlos)                        -->
-  <!--   Ref: 04_wireframes.md §3, 05_interaction_flow.md §4           -->
-  <!--                                                                 -->
-  <!-- ============================================================== -->
-  <div id="view-therapeutic" class="view view--therapeutic" hidden>
-
-    <!-- ─── HEADER ─── -->
-    <!-- Ref: Style Guide §6.2; header oscuro (#1E293B) -->
-    <header class="header header--therapeutic" role="banner">
-      <div class="header__inner">
-        <button class="header__back" aria-label="Volver" hidden>
-          <span aria-hidden="true">←</span>
-          <span>Volver</span>
-        </button>
-        <h1 class="header__title">Mnemosyne</h1>
-        <div class="header__user">
-          <span class="header__username">Carlos Herrera</span>
-          <button class="header__settings-btn" aria-label="Configuración">
-            <span aria-hidden="true">⚙</span>
+            spellcheck="false"
+          />
+          <button class="search-field__clear" id="search-clear" aria-label="Limpiar búsqueda" hidden>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <line x1="1" y1="1" x2="11" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="11" y1="1" x2="1" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
           </button>
         </div>
       </div>
-    </header>
 
-    <main class="main main--therapeutic" role="main">
-
-      <!-- === PANTALLA: Dashboard de Sesión === -->
-      <!-- Ref: wireframe §3.1; STD §4.1 -->
-      <section id="ther-dashboard" class="screen screen--active" aria-label="Panel de sesión">
-
-        <!-- Estado del implante -->
-        <!-- Ref: wireframe §3.1; Carlos tiene nivel tech alto → info técnica relevante -->
-        <div class="implant-status" role="status" aria-label="Estado del implante">
-          <span class="implant-status__indicator implant-status__indicator--connected" aria-hidden="true">●</span>
-          <span><strong>Conectado</strong></span>
-          <span class="implant-status__detail">Último uso: <time datetime="">Jueves 18:30</time></span>
-          <span class="implant-status__sessions">Sesiones esta semana: <strong id="ther-session-count">0</strong>/2</span>
-        </div>
-
-        <!-- Acciones rápidas -->
-        <div class="quick-actions">
-          <button class="quick-action-card" data-screen="ther-gallery" aria-describedby="qa-search-desc">
-            <span class="quick-action-card__icon" aria-hidden="true">🔍</span>
-            <span class="quick-action-card__title">Buscar recuerdos</span>
-            <span class="quick-action-card__desc" id="qa-search-desc">Búsqueda avanzada por texto, fecha, emoción</span>
-          </button>
-          <button class="quick-action-card" data-screen="ther-history" aria-describedby="qa-history-desc">
-            <span class="quick-action-card__icon" aria-hidden="true">📊</span>
-            <span class="quick-action-card__title">Historial de sesiones</span>
-            <span class="quick-action-card__desc" id="qa-history-desc">Ver progreso temporal de atenuación</span>
-          </button>
-        </div>
-
-        <!-- Recuerdos recientes -->
-        <section class="section" aria-labelledby="ther-recent-title">
-          <h2 id="ther-recent-title" class="section__title">Recuerdos recientes</h2>
-          <div class="memory-list" role="list" aria-label="Recuerdos recientes">
-            <!-- JS poblará (Commit 11). Estructura:
-            <article class="memory-row" role="listitem" tabindex="0" data-memory-id="...">
-              <div class="memory-row__thumbnail">
-                <img src="..." alt="...">
-              </div>
-              <div class="memory-row__info">
-                <h3 class="memory-row__title">[Título]</h3>
-                <p class="memory-row__meta">
-                  <span class="emotion-badge emotion-badge--high" aria-label="Emoción: 9 de 10">🔴 9/10</span>
-                  · Atenuación: <strong>40%</strong> · [Lugar]
-                </p>
-                <p class="memory-row__last-edit">Último ajuste: [fecha y cambio]</p>
-              </div>
-            </article>
-            -->
-          </div>
-        </section>
-
-        <!-- CTA: Iniciar sesión de atenuación -->
-        <!-- Ref: HTA-2 tarea 1; STD T20 -->
-        <button id="ther-start-session" class="btn btn--cta">
-          <span aria-hidden="true">▶</span>
-          Iniciar sesión de atenuación
-        </button>
-
-        <!-- Aviso empático permanente -->
-        <!-- Ref: wireframe §3.1; Tema 3 (control); HTA-2 punto crítico 1.3 -->
-        <p class="safety-reminder" role="note">
-          <span aria-hidden="true">💬</span>
-          Recuerda: puedes parar en cualquier momento.
-        </p>
-      </section>
-
-      <!-- === PANTALLA: Galería Completa (con búsqueda avanzada) === -->
-      <section id="ther-gallery" class="screen" aria-label="Galería de recuerdos" hidden>
-        <h2 class="screen__title">Buscar recuerdos</h2>
-
-        <div class="search-bar search-bar--advanced" role="search">
-          <label for="ther-search-input" class="sr-only">Buscar recuerdos</label>
-          <span class="search-bar__icon" aria-hidden="true">🔍</span>
-          <input type="search" id="ther-search-input" class="search-bar__input" placeholder="Texto, fecha, persona..." autocomplete="off">
-        </div>
-
-        <!-- Filtros de búsqueda -->
-        <div class="search-filters" role="group" aria-label="Filtros de búsqueda">
-          <button class="chip chip--active" data-filter="all">Todos</button>
-          <button class="chip" data-filter="high-emotion">Alta emoción</button>
-          <button class="chip" data-filter="recent">Recientes</button>
-          <button class="chip" data-filter="attenuated">Con atenuación</button>
-        </div>
-
-        <div class="memory-list" role="list" aria-label="Resultados de búsqueda">
-          <!-- JS poblará -->
-        </div>
-
-        <div class="empty-state" hidden>
-          <p class="empty-state__message">No se encontraron recuerdos.</p>
-          <p class="empty-state__hint">Prueba con otros términos o filtros.</p>
-        </div>
-      </section>
-
-      <!-- === PANTALLA: Historial de Sesiones === -->
-      <section id="ther-history" class="screen" aria-label="Historial de sesiones" hidden>
-        <h2 class="screen__title">Historial de sesiones</h2>
-        <div class="session-history" role="list" aria-label="Sesiones pasadas">
-          <!-- JS poblará -->
-        </div>
-      </section>
-
-      <!-- === PANTALLA: Aviso de Seguridad (pre-sesión) === -->
-      <!-- Ref: STD §4.1 estado AVISO SEGURIDAD; HTA-2 tareas 1.2-1.3 -->
-      <section id="ther-safety-notice" class="screen" aria-label="Aviso antes de iniciar sesión" hidden>
-        <div class="safety-notice">
-          <div class="safety-notice__icon" aria-hidden="true">🛡️</div>
-          <h2 class="safety-notice__title">Antes de empezar</h2>
-          <p class="safety-notice__message">
-            Esta sesión te permitirá trabajar con tus recuerdos de forma segura.
-            <strong>Puedes parar en cualquier momento</strong> si sientes que lo necesitas.
-          </p>
-          <div class="safety-notice__actions">
-            <button class="btn btn--primary" id="ther-continue-session">Continuar</button>
-            <button class="btn btn--secondary" id="ther-cancel-session">Salir</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- === PANTALLA: Visor + Panel de Atenuación Emocional === -->
-      <!-- Ref: wireframe §3.2; HTA-2 tareas 2-5; STD T24-T34 -->
-      <section id="ther-viewer" class="screen" aria-label="Sesión de atenuación" hidden>
-
-        <!-- Barra de sesión -->
-        <div class="session-bar" role="status" aria-label="Información de sesión">
-          <button class="session-bar__exit" id="ther-exit-session" aria-label="Salir de la sesión">
-            ← Salir de sesión
-          </button>
-          <span class="session-bar__label">Sesión de atenuación</span>
-          <span class="session-bar__timer" aria-label="Tiempo de sesión">
-            <span aria-hidden="true">⏱</span>
-            <time id="ther-session-timer">00:00</time>
-          </span>
-        </div>
-
-        <div class="viewer-layout viewer-layout--therapeutic">
-          <!-- Imagen del recuerdo -->
-          <div class="viewer" role="region" aria-label="Imagen del recuerdo">
-            <div class="viewer__image-container viewer__image-container--dark">
-              <img id="ther-viewer-img" class="viewer__image" src="" alt="">
-            </div>
-          </div>
-
-          <!-- Panel lateral de metadatos -->
-          <!-- Ref: wireframe §3.2 (panel derecho) -->
-          <aside class="viewer__sidebar" role="complementary" aria-label="Metadatos y controles">
-            <div class="viewer__metadata viewer__metadata--therapeutic">
-              <h2 id="ther-viewer-title" class="viewer__title"><!-- Título --></h2>
-              <p class="viewer__date">
-                <span aria-hidden="true">📅</span>
-                <span class="viewer__date-text"></span>
-              </p>
-              <p class="viewer__location">
-                <span aria-hidden="true">📍</span>
-                <span class="viewer__location-text"></span>
-              </p>
-              <p class="viewer__people">
-                <span aria-hidden="true">👥</span>
-                <span class="viewer__people-text"></span>
-              </p>
-
-              <div class="viewer__emotion" role="region" aria-label="Nivel emocional">
-                <span class="viewer__emotion-label">Emoción dominante</span>
-                <span class="viewer__emotion-value"><!-- ej: Terror · 9/10 --></span>
-                <div class="emotion-bar" role="meter" aria-label="Nivel emocional" aria-valuenow="9" aria-valuemin="0" aria-valuemax="10">
-                  <div class="emotion-bar__fill"></div>
-                </div>
-              </div>
-
-              <div class="viewer__attenuation-summary">
-                <span class="viewer__attenuation-label">Atenuación actual</span>
-                <div class="viewer__attenuation-bar">
-                  <div class="attenuation-mini-bar">
-                    <div class="attenuation-mini-bar__fill"></div>
-                  </div>
-                  <span class="viewer__attenuation-value"><!-- ej: 40% / 70% límite --></span>
-                </div>
-              </div>
-            </div>
-          </aside>
-        </div>
-
-        <!-- Panel de filtro: Atenuación Emocional -->
-        <!-- Ref: wireframe §3.2; HTA-2 tarea 4; Microinteracción §3 -->
-        <div class="filter-panel filter-panel--therapeutic" role="region" aria-label="Control de Atenuación Emocional">
-          <h3 class="filter-panel__title">Atenuación Emocional</h3>
-
-          <div class="slider-container">
-            <span class="slider__label-min" aria-hidden="true">Intenso</span>
-
-            <div class="slider-wrapper">
-              <div
-                id="ther-attenuation-slider"
-                class="slider slider--therapeutic"
-                role="slider"
-                aria-label="Atenuación Emocional"
-                aria-valuenow="0"
-                aria-valuemin="0"
-                aria-valuemax="70"
-                aria-valuetext="0 por ciento, intenso. Límite de tu terapeuta: 70 por ciento"
-                tabindex="0"
-              >
-                <div class="slider__track">
-                  <div class="slider__fill"></div>
-                  <div class="slider__limit-zone" aria-hidden="true"></div>
-                  <div class="slider__limit-marker" aria-hidden="true"></div>
-                </div>
-                <div class="slider__thumb" aria-hidden="true"></div>
-              </div>
-
-              <output class="slider__output" for="ther-attenuation-slider" aria-live="polite">
-                <span class="slider__percentage">0%</span>
-                <span class="slider__limit-label">Límite: 70%</span>
-              </output>
-            </div>
-
-            <span class="slider__label-max" aria-hidden="true">Suave</span>
-          </div>
-
-          <!-- Explicación del límite del terapeuta -->
-          <!-- Ref: Gap §3.2 (límite como protección, no restricción) -->
-          <p class="filter-panel__limit-message" role="note">
-            <span aria-hidden="true">ℹ️</span>
-            Límite del 70% configurado por <strong>Dr. Molina</strong> (parte de tu plan de tratamiento)
-          </p>
-        </div>
-
-        <!-- Indicador de bienestar -->
-        <!-- Ref: wireframe §3.2; HTA-2 tarea 4.5; Microinteracción §7 -->
-        <div class="wellbeing-panel" role="region" aria-label="Indicador de bienestar">
-          <h3 class="wellbeing-panel__title">¿Cómo te sientes?</h3>
-          <div class="wellbeing-slider-container">
-            <span class="wellbeing__label-min" aria-hidden="true">😰</span>
-            <div
-              id="ther-wellbeing-slider"
-              class="slider slider--wellbeing"
-              role="slider"
-              aria-label="Nivel de bienestar"
-              aria-valuenow="3"
-              aria-valuemin="1"
-              aria-valuemax="5"
-              aria-valuetext="Neutro"
-              tabindex="0"
-            >
-              <div class="slider__track"><div class="slider__fill"></div></div>
-              <div class="slider__thumb" aria-hidden="true"></div>
-            </div>
-            <span class="wellbeing__label-max" aria-hidden="true">😌</span>
-          </div>
-          <output class="wellbeing__description" for="ther-wellbeing-slider" aria-live="polite">
-            Neutro
-          </output>
-        </div>
-
-        <!-- Botones de acción -->
-        <div class="filter-panel__actions">
-          <button class="btn btn--primary btn--save" disabled>
-            <span aria-hidden="true">💾</span>
-            Guardar ajuste
-          </button>
-          <button class="btn btn--secondary btn--undo" disabled>
-            <span aria-hidden="true">↩</span>
-            Deshacer cambios
-          </button>
-        </div>
-
-        <!-- Aviso empático permanente -->
-        <!-- Ref: STD T34; punto de salida siempre accesible -->
-        <p class="safety-reminder safety-reminder--session" role="note">
-          <span aria-hidden="true">💬</span>
-          Puedes parar en cualquier momento →
-          <button class="btn btn--ghost" id="ther-exit-session-bottom">Salir de sesión</button>
-        </p>
-
-        <!-- Región live para anuncios -->
-        <div id="ther-slider-announce" aria-live="polite" aria-atomic="true" class="sr-only"></div>
-      </section>
-
-      <!-- === PANTALLA: Resumen de Sesión === -->
-      <!-- Ref: wireframe §3.3; HTA-2 tareas 5-6; STD T32-T38 -->
-      <section id="ther-summary" class="screen" aria-label="Resumen de sesión" hidden>
-        <h2 class="screen__title">Resumen de tu sesión</h2>
-
-        <div class="session-summary" role="region" aria-label="Datos de la sesión">
-          <div class="session-summary__row">
-            <span class="session-summary__label">📅 Fecha</span>
-            <span class="session-summary__value" id="summary-date"><!-- Dinámico --></span>
-          </div>
-          <div class="session-summary__row">
-            <span class="session-summary__label">⏱ Duración</span>
-            <span class="session-summary__value" id="summary-duration"><!-- Dinámico --></span>
-          </div>
-          <div class="session-summary__row">
-            <span class="session-summary__label">Recuerdo trabajado</span>
-            <span class="session-summary__value" id="summary-memory"><!-- Dinámico --></span>
-          </div>
-
-          <!-- Progresión antes/después -->
-          <div class="session-summary__progress" role="region" aria-label="Progreso de atenuación">
-            <div class="progress-comparison">
-              <span class="progress-comparison__before">
-                <span class="progress-comparison__label">Antes</span>
-                <span class="progress-comparison__value" id="summary-before"><!-- X% --></span>
+      <!-- Navigation -->
+      <nav class="sidebar-nav" aria-label="Vistas principales">
+        <ul>
+          <li>
+            <button class="sidebar-nav-item sidebar-nav-item--active" data-view="gallery" aria-label="Galería de recuerdos">
+              <span class="sidebar-nav-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                  <rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                  <rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                  <rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
               </span>
-              <span class="progress-comparison__arrow" aria-hidden="true">──────►</span>
-              <span class="progress-comparison__after">
-                <span class="progress-comparison__label">Ahora</span>
-                <span class="progress-comparison__value" id="summary-after"><!-- Y% --></span>
+              <span class="sidebar-nav-label">Galería</span>
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-nav-item" data-view="timeline" aria-label="Línea de tiempo">
+              <span class="sidebar-nav-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <line x1="4" y1="2" x2="4" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <circle cx="4" cy="4" r="2" fill="currentColor"/>
+                  <circle cx="4" cy="9" r="2" fill="currentColor"/>
+                  <circle cx="4" cy="14" r="2" fill="currentColor"/>
+                  <line x1="6" y1="4" x2="14" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="6" y1="9" x2="12" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="6" y1="14" x2="10" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
               </span>
-            </div>
-          </div>
-
-          <div class="session-summary__row">
-            <span class="session-summary__label">Bienestar</span>
-            <span class="session-summary__value" id="summary-wellbeing"><!-- Dinámico --></span>
-          </div>
-        </div>
-
-        <!-- Nota para el terapeuta (opcional) -->
-        <!-- Ref: HTA-2 tarea 5.5 -->
-        <div class="therapist-note" role="region" aria-label="Nota para tu terapeuta">
-          <label for="ther-note-input" class="therapist-note__label">
-            Nota para tu terapeuta <span class="therapist-note__optional">(opcional)</span>
-          </label>
-          <textarea
-            id="ther-note-input"
-            class="therapist-note__textarea"
-            placeholder="Escribe cómo te has sentido durante la sesión..."
-            rows="3"
-            maxlength="500"
-          ></textarea>
-        </div>
-
-        <button class="btn btn--cta" id="ther-finish-session">
-          <span aria-hidden="true">✓</span>
-          Finalizar sesión
-        </button>
-      </section>
-    </main>
-  </div>
-
-
-  <!-- ============================================================== -->
-  <!--                                                                 -->
-  <!--   VISTA 3: CUIDADOR (Elena)                                     -->
-  <!--   Ref: 04_wireframes.md §4, 05_interaction_flow.md §5           -->
-  <!--                                                                 -->
-  <!-- ============================================================== -->
-  <div id="view-caregiver" class="view view--caregiver" hidden>
-
-    <!-- ─── HEADER ─── -->
-    <header class="header header--caregiver" role="banner">
-      <div class="header__inner">
-        <h1 class="header__title">Mnemosyne</h1>
-        <span class="header__role-badge">Panel de cuidador</span>
-        <div class="header__user">
-          <span class="header__username">Elena Navarro</span>
-          <button class="header__settings-btn" aria-label="Configuración">
-            <span aria-hidden="true">⚙</span>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <div class="layout-sidebar">
-      <!-- ─── SIDEBAR ─── -->
-      <!-- Ref: wireframe §4.1; Style Guide §6.3 (sidebar verde) -->
-      <nav class="sidebar" role="navigation" aria-label="Menú de administración">
-        <ul class="sidebar__list">
-          <li>
-            <button class="sidebar__item sidebar__item--active" data-screen="care-dashboard" aria-current="page">
-              <span class="sidebar__icon" aria-hidden="true">📊</span>
-              <span class="sidebar__label">Resumen</span>
+              <span class="sidebar-nav-label">Línea de tiempo</span>
             </button>
           </li>
           <li>
-            <button class="sidebar__item" data-screen="care-library">
-              <span class="sidebar__icon" aria-hidden="true">📷</span>
-              <span class="sidebar__label">Biblioteca de recuerdos</span>
-            </button>
-          </li>
-          <li>
-            <button class="sidebar__item" data-screen="care-permissions">
-              <span class="sidebar__icon" aria-hidden="true">🔒</span>
-              <span class="sidebar__label">Permisos y límites</span>
-            </button>
-          </li>
-          <li>
-            <button class="sidebar__item" data-screen="care-preview">
-              <span class="sidebar__icon" aria-hidden="true">👁</span>
-              <span class="sidebar__label">Previsualizar como paciente</span>
-            </button>
-          </li>
-          <li class="sidebar__separator" role="separator"></li>
-          <li>
-            <button class="sidebar__item" data-screen="care-my-permissions">
-              <span class="sidebar__icon" aria-hidden="true">ℹ</span>
-              <span class="sidebar__label">Mis permisos</span>
+            <button class="sidebar-nav-item nav-item--dashboard" data-view="dashboard" aria-label="Panel de estadísticas">
+              <span class="sidebar-nav-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="1" width="6" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                  <rect x="9" y="1" width="6" height="4" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                  <rect x="9" y="7" width="6" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                  <rect x="1" y="11" width="6" height="4" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+              </span>
+              <span class="sidebar-nav-label">Panel</span>
             </button>
           </li>
         </ul>
       </nav>
 
-      <!-- ─── MAIN CONTENT ─── -->
-      <main class="main main--caregiver" role="main">
-
-        <!-- === PANTALLA: Panel Principal (Resumen) === -->
-        <!-- Ref: wireframe §4.1 -->
-        <section id="care-dashboard" class="screen screen--active" aria-label="Resumen de actividad">
-          <h2 class="screen__title">
-            Gestionando: <strong>María Luisa Fernández</strong>
-          </h2>
-
-          <!-- Actividad reciente -->
-          <div class="card" role="region" aria-labelledby="care-activity-title">
-            <h3 id="care-activity-title" class="card__title">Actividad reciente</h3>
-            <ul class="activity-log" id="care-activity-log" role="log" aria-label="Actividad de María Luisa">
-              <!-- JS poblará. Estructura:
-              <li class="activity-log__entry">
-                <time datetime="...">Dom 16 feb</time>:
-                Revisó 3 recuerdos de Lucía (con Elena). Claridad ajustada al 75%.
-              </li>
-              -->
-            </ul>
-          </div>
-
-          <!-- Filtros activos -->
-          <div class="card" role="region" aria-labelledby="care-filters-title">
-            <h3 id="care-filters-title" class="card__title">Filtros activos</h3>
-            <ul class="filter-list" id="care-filter-list" role="list" aria-label="Filtros actualmente aplicados">
-              <!-- JS poblará. Estructura:
-              <li class="filter-list__item">
-                <span class="filter-list__memory">Navidad 2025</span>
-                <span class="filter-list__value">Claridad: 75%</span>
-              </li>
-              -->
-            </ul>
-          </div>
-
-          <!-- Botón de previsualización -->
-          <!-- Ref: HTA-3 tarea 3.1; STD §5.1 flujo previsualización -->
-          <button class="btn btn--outline" data-screen="care-preview">
-            <span aria-hidden="true">👁</span>
-            Previsualizar como María Luisa
+      <!-- Sort control -->
+      <div class="sidebar-sort">
+        <span class="sidebar-section-label">Ordenar</span>
+        <div class="custom-select" id="sort-select" role="combobox" aria-label="Ordenar recuerdos por" aria-expanded="false" aria-haspopup="listbox">
+          <button class="custom-select__trigger" type="button" aria-label="Seleccionar orden">
+            <span class="custom-select__value">Más recientes</span>
+            <svg class="custom-select__arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <polyline points="2,4 6,8 10,4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </button>
-        </section>
+          <ul class="custom-select__menu" role="listbox" aria-label="Opciones de ordenación">
+            <li class="custom-select__item custom-select__item--selected" data-value="date-desc" role="option" aria-selected="true">Más recientes</li>
+            <li class="custom-select__item" data-value="date-asc" role="option" aria-selected="false">Más antiguos</li>
+            <li class="custom-select__item" data-value="title-asc" role="option" aria-selected="false">Título A–Z</li>
+            <li class="custom-select__item" data-value="emotionalIntensity-desc" role="option" aria-selected="false">Mayor intensidad</li>
+            <li class="custom-select__item" data-value="clarityLevel-desc" role="option" aria-selected="false">Mayor claridad</li>
+          </ul>
+        </div>
+      </div>
 
-        <!-- === PANTALLA: Biblioteca de Recuerdos === -->
-        <section id="care-library" class="screen" aria-label="Biblioteca de recuerdos" hidden>
-          <h2 class="screen__title">Biblioteca de recuerdos</h2>
+      <!-- Category filters -->
+      <div class="sidebar-section">
+        <span class="sidebar-section-label">Categorías</span>
+        <div id="category-filters" class="filter-chips" role="group" aria-label="Filtrar por categoría">
+          <!-- Rendered by ui.js: _renderSidebarFilters() -->
+        </div>
+      </div>
 
-          <div class="search-bar" role="search">
-            <label for="care-search-input" class="sr-only">Buscar recuerdos</label>
-            <span class="search-bar__icon" aria-hidden="true">🔍</span>
-            <input type="search" id="care-search-input" class="search-bar__input" placeholder="Buscar por título, persona, fecha..." autocomplete="off">
-          </div>
+      <!-- Tag filters -->
+      <div class="sidebar-section">
+        <span class="sidebar-section-label">Etiquetas</span>
+        <div id="tag-filters" class="filter-chips" role="group" aria-label="Filtrar por etiqueta">
+          <!-- Rendered by ui.js -->
+        </div>
+      </div>
 
-          <div class="memory-table" role="table" aria-label="Recuerdos del paciente">
-            <div class="memory-table__header" role="row">
-              <span role="columnheader">Recuerdo</span>
-              <span role="columnheader">Fecha</span>
-              <span role="columnheader">Personas</span>
-              <span role="columnheader">Filtros</span>
-              <span role="columnheader">Favorito</span>
-              <span role="columnheader">Acciones</span>
-            </div>
-            <div class="memory-table__body" id="care-memory-table-body" role="rowgroup">
-              <!-- JS poblará -->
-            </div>
-          </div>
-        </section>
-
-        <!-- === PANTALLA: Editor de Recuerdo (Cuidador) === -->
-        <!-- Ref: STD §5.1; HTA-3 tareas 2-4 -->
-        <section id="care-editor" class="screen" aria-label="Editar recuerdo" hidden>
-          <h2 class="screen__title" id="care-editor-title">Editar recuerdo</h2>
-
-          <div class="editor-layout">
-            <!-- Previsualización de imagen -->
-            <div class="editor__preview">
-              <img id="care-editor-img" class="editor__image" src="" alt="">
-            </div>
-
-            <!-- Campos de edición -->
-            <div class="editor__fields">
-              <!-- Metadatos -->
-              <fieldset class="editor__fieldset">
-                <legend>Metadatos</legend>
-
-                <div class="form-group">
-                  <label for="care-edit-title">Título del recuerdo</label>
-                  <input type="text" id="care-edit-title" class="input">
-                </div>
-                <div class="form-group">
-                  <label for="care-edit-date">Fecha</label>
-                  <input type="date" id="care-edit-date" class="input">
-                </div>
-                <div class="form-group">
-                  <label for="care-edit-location">Lugar</label>
-                  <input type="text" id="care-edit-location" class="input">
-                </div>
-                <div class="form-group">
-                  <label for="care-edit-people">Personas (separadas por coma)</label>
-                  <input type="text" id="care-edit-people" class="input" placeholder="Lucía, Pablo, Tomás...">
-                </div>
-              </fieldset>
-
-              <!-- Preconfigurar filtros -->
-              <!-- Ref: HTA-3 tarea 3.2 -->
-              <fieldset class="editor__fieldset">
-                <legend>Preconfigurar filtros</legend>
-
-                <div class="slider-container slider-container--compact">
-                  <label class="slider-compact__label" for="care-clarity-preview">Claridad Facial</label>
-                  <div
-                    id="care-clarity-preview"
-                    class="slider slider--compact"
-                    role="slider"
-                    aria-label="Claridad Facial (preconfiguración)"
-                    aria-valuenow="0"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuetext="0 por ciento"
-                    tabindex="0"
-                  >
-                    <div class="slider__track"><div class="slider__fill"></div></div>
-                    <div class="slider__thumb" aria-hidden="true"></div>
-                  </div>
-                  <output class="slider__output--compact">0%</output>
-                </div>
-              </fieldset>
-
-              <!-- Favorito -->
-              <div class="form-group form-group--inline">
-                <button
-                  class="toggle-favorite"
-                  role="switch"
-                  aria-checked="false"
-                  aria-label="Marcar como favorito"
-                >
-                  <span class="toggle-favorite__star" aria-hidden="true">☆</span>
-                  <span class="toggle-favorite__text">Añadir a favoritos de María Luisa</span>
-                </button>
-              </div>
-
-              <!-- Acciones -->
-              <div class="editor__actions">
-                <button class="btn btn--primary">
-                  <span aria-hidden="true">💾</span>
-                  Guardar cambios
-                </button>
-                <button class="btn btn--secondary">Cancelar</button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- === PANTALLA: Permisos y Límites === -->
-        <!-- Ref: STD §5.1; HTA-3 tarea 5 -->
-        <section id="care-permissions" class="screen" aria-label="Permisos y límites" hidden>
-          <h2 class="screen__title">Permisos y límites de María Luisa</h2>
-
-          <div class="card">
-            <h3 class="card__title">Funciones habilitadas</h3>
-            <div class="permission-row">
-              <span class="permission-row__label">Claridad Facial</span>
-              <button class="toggle" role="switch" aria-checked="true" aria-label="Claridad Facial habilitada">
-                <span class="toggle__track"><span class="toggle__thumb"></span></span>
-                <span class="toggle__text">Habilitada</span>
-              </button>
-            </div>
-            <div class="permission-row">
-              <span class="permission-row__label">Atenuación Emocional</span>
-              <button class="toggle" role="switch" aria-checked="false" aria-label="Atenuación Emocional deshabilitada">
-                <span class="toggle__track"><span class="toggle__thumb"></span></span>
-                <span class="toggle__text">Deshabilitada</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="card">
-            <h3 class="card__title">Límites de intensidad</h3>
-            <div class="form-group">
-              <label for="care-clarity-limit">Claridad Facial máxima</label>
-              <div class="slider-container slider-container--compact">
-                <div
-                  id="care-clarity-limit"
-                  class="slider slider--compact"
-                  role="slider"
-                  aria-label="Límite de Claridad Facial"
-                  aria-valuenow="90"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                  aria-valuetext="90 por ciento"
-                  tabindex="0"
-                >
-                  <div class="slider__track"><div class="slider__fill"></div></div>
-                  <div class="slider__thumb" aria-hidden="true"></div>
-                </div>
-                <output class="slider__output--compact">90%</output>
-              </div>
-            </div>
-          </div>
-
-          <div class="card__actions">
-            <button class="btn btn--primary">
-              <span aria-hidden="true">💾</span>
-              Guardar configuración
-            </button>
-          </div>
-        </section>
-
-        <!-- === PANTALLA: Previsualización como Paciente === -->
-        <!-- Ref: 05_interaction_flow.md §7; STD §5.1 -->
-        <section id="care-preview" class="screen" aria-label="Previsualización como paciente" hidden>
-          <!-- Banner de modo previsualización -->
-          <div class="preview-banner" role="alert">
-            <span class="preview-banner__icon" aria-hidden="true">⚠️</span>
-            <span class="preview-banner__text">
-              <strong>Modo previsualización.</strong> Estás viendo la interfaz de María Luisa. No puedes hacer cambios.
-            </span>
-            <button class="btn btn--sm btn--secondary" id="care-exit-preview">✕ Salir</button>
-          </div>
-
-          <!-- Contenido: réplica del Dashboard de María Luisa (solo lectura) -->
-          <div class="preview-content" aria-label="Vista previa del dashboard de María Luisa" inert>
-            <!-- JS renderizará una réplica del Dashboard Alzheimer en solo lectura -->
-          </div>
-        </section>
-
-        <!-- === PANTALLA: Mis Permisos === -->
-        <section id="care-my-permissions" class="screen" aria-label="Mis permisos" hidden>
-          <h2 class="screen__title">Mis permisos como cuidadora</h2>
-          <div class="card">
-            <ul class="permissions-list" role="list">
-              <li class="permissions-list__item permissions-list__item--allowed">
-                <span aria-hidden="true">✓</span> Ver recuerdos de María Luisa (metadatos)
-              </li>
-              <li class="permissions-list__item permissions-list__item--allowed">
-                <span aria-hidden="true">✓</span> Editar metadatos (nombres, fechas, lugares)
-              </li>
-              <li class="permissions-list__item permissions-list__item--allowed">
-                <span aria-hidden="true">✓</span> Preconfigurar filtros de Claridad Facial
-              </li>
-              <li class="permissions-list__item permissions-list__item--allowed">
-                <span aria-hidden="true">✓</span> Gestionar favoritos
-              </li>
-              <li class="permissions-list__item permissions-list__item--allowed">
-                <span aria-hidden="true">✓</span> Configurar límites de intensidad
-              </li>
-              <li class="permissions-list__item permissions-list__item--denied">
-                <span aria-hidden="true">✕</span> Ver el contenido de los recuerdos (requiere acción explícita)
-              </li>
-              <li class="permissions-list__item permissions-list__item--denied">
-                <span aria-hidden="true">✕</span> Eliminar recuerdos
-              </li>
-              <li class="permissions-list__item permissions-list__item--denied">
-                <span aria-hidden="true">✕</span> Modificar el plan terapéutico
-              </li>
-            </ul>
-          </div>
-        </section>
-
-      </main>
-    </div>
-  </div>
-
-
-  <!-- ============================================================== -->
-  <!--                                                                 -->
-  <!--   COMPONENTES COMPARTIDOS: DIÁLOGOS MODALES                     -->
-  <!--   Ref: 03_dialogue_specification.md §5; 05_microinteractions.md §5 -->
-  <!--                                                                 -->
-  <!-- ============================================================== -->
-
-  <!-- Diálogo: Confirmación de guardado (D-01/D-02) -->
-  <div id="modal-confirm" class="modal-overlay" role="presentation" hidden>
-    <div
-      class="modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-confirm-title"
-      aria-describedby="modal-confirm-message"
-    >
-      <h2 id="modal-confirm-title" class="modal__title"><!-- Título dinámico --></h2>
-      <p id="modal-confirm-message" class="modal__message"><!-- Mensaje dinámico --></p>
-      <div class="modal__actions">
-        <button class="btn btn--primary modal__btn-confirm" autofocus>
-          <span class="modal__btn-icon" aria-hidden="true">✓</span>
-          <span class="modal__btn-text"><!-- Texto dinámico --></span>
-        </button>
-        <button class="btn btn--secondary modal__btn-cancel">
-          <span class="modal__btn-icon" aria-hidden="true">✕</span>
-          <span class="modal__btn-text"><!-- Texto dinámico --></span>
+      <!-- Sidebar footer -->
+      <div class="sidebar-footer">
+        <button class="btn btn--ghost btn--sm" id="btn-exit-profile" aria-label="Cambiar de perfil">
+          <span aria-hidden="true">⇠</span> Cambiar perfil
         </button>
       </div>
-    </div>
-  </div>
 
-  <!-- Diálogo: Cambio brusco detectado (D-03) -->
-  <div id="modal-abrupt" class="modal-overlay" role="presentation" hidden>
-    <div
-      class="modal"
-      role="alertdialog"
-      aria-modal="true"
-      aria-labelledby="modal-abrupt-title"
-      aria-describedby="modal-abrupt-message"
-    >
-      <h2 id="modal-abrupt-title" class="modal__title">Cambio detectado</h2>
-      <p id="modal-abrupt-message" class="modal__message">
-        Has movido el filtro rápidamente. ¿Es lo que querías?
-      </p>
-      <div class="modal__actions">
-        <button class="btn btn--primary modal__btn-confirm">
-          <span class="modal__btn-icon" aria-hidden="true">✓</span>
-          Sí, mantener
-        </button>
-        <button class="btn btn--secondary modal__btn-cancel">
-          <span class="modal__btn-icon" aria-hidden="true">↩</span>
-          Deshacer
-        </button>
+    </aside><!-- /sidebar -->
+
+
+    <!-- ------------------------------------------------------------------
+         MAIN CONTENT
+         ------------------------------------------------------------------ -->
+    <main class="main-content" id="main-content" aria-label="Contenido principal">
+
+      <!-- ---- GALLERY VIEW ---- -->
+      <section class="view view--active" data-view="gallery" aria-label="Galería de recuerdos">
+        <div class="view-header">
+          <h1 class="view-title">Recuerdos</h1>
+          <div class="view-header-meta">
+            <span id="memory-count" class="view-count" aria-live="polite">0 recuerdos</span>
+          </div>
+        </div>
+
+        <div id="memory-grid" class="memory-grid" role="list" aria-label="Lista de recuerdos">
+        </div>
+      </section>
+
+      <!-- ---- TIMELINE VIEW ---- -->
+      <section class="view" data-view="timeline" aria-label="Línea de tiempo">
+        <div class="view-header">
+          <h1 class="view-title">Línea de tiempo</h1>
+        </div>
+        <div id="timeline-list" class="timeline" role="list" aria-label="Recuerdos en orden cronológico">
+        </div>
+      </section>
+
+      <!-- ---- DASHBOARD VIEW ---- -->
+      <section class="view" data-view="dashboard" aria-label="Panel de estadísticas">
+        <div class="view-header">
+          <h1 class="view-title">Panel</h1>
+        </div>
+
+        <div class="dashboard-grid">
+
+          <div class="widget" id="widget-total">
+            <span class="widget-value">–</span>
+            <span class="widget-label">Recuerdos</span>
+          </div>
+
+          <div class="widget" id="widget-clarity">
+            <span class="widget-value">–</span>
+            <span class="widget-label">Claridad media</span>
+          </div>
+
+          <div class="widget" id="widget-attenuation">
+            <span class="widget-value">–</span>
+            <span class="widget-label">Atenuación media</span>
+          </div>
+
+          <div class="widget" id="widget-modified">
+            <span class="widget-value">–</span>
+            <span class="widget-label">Con filtros</span>
+          </div>
+
+          <div class="widget widget--wide" id="widget-implant" aria-label="Estado del implante">
+          </div>
+
+        </div>
+
+        <div class="dashboard-section">
+          <h2 class="dashboard-section-title">Por categoría</h2>
+          <div id="category-grid" class="category-grid">
+          </div>
+        </div>
+
+      </section>
+
+    </main><!-- /main-content -->
+
+
+    <!-- ------------------------------------------------------------------
+         STATUS BAR
+         ------------------------------------------------------------------ -->
+    <footer class="status-bar" id="status-bar" role="contentinfo" aria-label="Estado del sistema">
+      <div class="neural-bars" aria-label="Intensidad de señal neural">
+        <span class="neural-bar neural-bar--active"></span>
+        <span class="neural-bar neural-bar--active"></span>
+        <span class="neural-bar neural-bar--active"></span>
+        <span class="neural-bar neural-bar--active"></span>
+        <span class="neural-bar"></span>
+      </div>
+      <span class="status-item">
+        <span class="status-label" aria-label="Señal">⟁</span>
+        <span id="status-signal">–</span>
+      </span>
+      <span class="status-item">
+        <span class="status-label" aria-label="Batería">◻</span>
+        <span id="status-battery">–</span>
+      </span>
+      <span class="status-item status-item--right">
+        <span id="status-version" class="status-version">–</span>
+      </span>
+    </footer>
+
+  </div><!-- /app -->
+
+
+  <!-- ======================================================================
+       DRAWER — Memory Detail Panel (slides in from right)
+       ====================================================================== -->
+  <div id="drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
+
+  <aside
+    id="drawer"
+    class="drawer"
+    role="complementary"
+    aria-label="Detalle del recuerdo"
+    aria-hidden="true"
+  >
+    <div class="drawer-header">
+      <button
+        id="drawer-close"
+        class="drawer-close"
+        aria-label="Cerrar panel de detalle"
+      >✕</button>
+    </div>
+    <div id="drawer-body" class="drawer-body">
+      <!-- Rendered dynamically by ui.js: _renderDrawerContent() -->
+    </div>
+  </aside><!-- /drawer -->
+
+
+  <!-- ======================================================================
+       DIALOG — Confirmation modal
+       ====================================================================== -->
+  <div id="dialog-container" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+    <div class="dialog-overlay" aria-hidden="true"></div>
+    <div class="dialog-box">
+      <h2 id="dialog-title" class="dialog-title">¿Confirmar acción?</h2>
+      <p id="dialog-message" class="dialog-message"></p>
+      <div class="dialog-actions">
+        <button id="dialog-cancel"  class="btn btn--ghost">Cancelar</button>
+        <button id="dialog-confirm" class="btn btn--primary">Confirmar</button>
       </div>
     </div>
+  </div><!-- /dialog -->
+
+
+  <!-- ======================================================================
+       TOAST CONTAINER
+       ====================================================================== -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-relevant="additions"></div>
+
+
+  <!-- ======================================================================
+       EMERGENCY EXIT (Carlos only — shown via profiles.css)
+       ====================================================================== -->
+  <button class="emergency-exit" id="emergency-exit" aria-label="Salir de la sesión de inmediato">
+    ⏹ SALIR
+  </button>
+
+
+  <!-- ======================================================================
+       FONT SIZE CONTROL (María Luisa only — shown via CSS [data-user])
+       ====================================================================== -->
+  <div class="font-size-control" id="font-size-control" aria-label="Tamaño de texto">
+    <button class="font-size-btn" id="btn-font-increase" aria-label="Aumentar tamaño de texto">A+</button>
+    <button class="font-size-btn" id="btn-font-decrease" aria-label="Reducir tamaño de texto">A−</button>
   </div>
 
-  <!-- Diálogo: Límite alcanzado (D-04) -->
-  <div id="modal-limit" class="modal-overlay" role="presentation" hidden>
-    <div
-      class="modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-limit-title"
-      aria-describedby="modal-limit-message"
-    >
-      <h2 id="modal-limit-title" class="modal__title">Límite alcanzado</h2>
-      <p id="modal-limit-message" class="modal__message">
-        Has llegado al límite de atenuación configurado por tu terapeuta.
-        Esto forma parte de tu plan de tratamiento.
-      </p>
-      <div class="modal__actions">
-        <button class="btn btn--primary modal__btn-confirm" autofocus>Entendido</button>
-      </div>
-    </div>
-  </div>
+  <!-- Screen reader utility -->
+  <style>
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
 
-  <!-- Diálogo: Bienestar (D-05) -->
-  <div id="modal-wellbeing" class="modal-overlay" role="presentation" hidden>
-    <div
-      class="modal modal--wellbeing"
-      role="alertdialog"
-      aria-modal="true"
-      aria-labelledby="modal-wellbeing-title"
-      aria-describedby="modal-wellbeing-message"
-    >
-      <h2 id="modal-wellbeing-title" class="modal__title">¿Todo bien?</h2>
-      <p id="modal-wellbeing-message" class="modal__message">
-        Llevas un rato sin interactuar. Recuerda que puedes parar cuando quieras.
-      </p>
-      <div class="modal__actions">
-        <button class="btn btn--primary modal__btn-confirm">Sí, continuar</button>
-        <button class="btn btn--secondary modal__btn-cancel">Quiero parar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Diálogo: Salir de sesión (D-06) -->
-  <div id="modal-exit-session" class="modal-overlay" role="presentation" hidden>
-    <div
-      class="modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-exit-title"
-      aria-describedby="modal-exit-message"
-    >
-      <h2 id="modal-exit-title" class="modal__title">Finalizar sesión</h2>
-      <p id="modal-exit-message" class="modal__message">
-        ¿Quieres guardar los cambios de esta sesión antes de salir?
-      </p>
-      <div class="modal__actions">
-        <button class="btn btn--primary modal__btn-confirm">Guardar y salir</button>
-        <button class="btn btn--secondary modal__btn-cancel">Salir sin guardar</button>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ============================================================== -->
-  <!-- TOAST / MENSAJE DE ÉXITO                                        -->
-  <!-- Ref: 05_microinteractions.md §6                                 -->
-  <!-- ============================================================== -->
-  <div id="toast" class="toast" role="status" aria-live="assertive" hidden>
-    <span class="toast__icon" aria-hidden="true">✓</span>
-    <span class="toast__message"><!-- Mensaje dinámico --></span>
-  </div>
-
-
-  <!-- ============================================================== -->
-  <!-- ANIMACIÓN DE CARGA NEURAL                                       -->
-  <!-- Ref: 05_microinteractions.md §8                                 -->
-  <!-- ============================================================== -->
-  <div id="neural-loading" class="neural-loading" aria-label="Accediendo al recuerdo" hidden>
-    <div class="neural-loading__dots" aria-hidden="true">
-      <span class="neural-loading__dot"></span>
-      <span class="neural-loading__dot"></span>
-      <span class="neural-loading__dot"></span>
-    </div>
-    <p class="neural-loading__text">Accediendo al recuerdo...</p>
-  </div>
-
-
-  <!-- ============================================================== -->
-  <!-- REGIÓN GLOBAL DE ESTADO                                         -->
-  <!-- Ref: 06_accessibility.md §4.5                                   -->
-  <!-- ============================================================== -->
-  <div id="global-status" aria-live="assertive" aria-atomic="true" class="sr-only"></div>
-
-
-  <!-- ============================================================== -->
-  <!-- SCRIPTS (Commits 10-12)                                         -->
-  <!-- ============================================================== -->
-  <script src="js/data.js"></script>         <!-- Commit 10 -->
-  <script src="js/navigation.js"></script>   <!-- Commit 11 -->
-  <script src="js/search.js"></script>       <!-- Commit 11 -->
-  <script src="js/slider.js"></script>       <!-- Commit 12 -->
-  <script src="js/modal.js"></script>        <!-- Commit 12 -->
-  <script src="js/app.js"></script>          <!-- Commit 11 -->
+  <!-- App entry point (ES module) -->
+  <script type="module" src="js/app.js"></script>
 
 </body>
 </html>

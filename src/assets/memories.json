@@ -1,0 +1,870 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "description": "Base de datos simulada de recuerdos para Mnemosyne — NeuroLink V4",
+    "generated": "2026-02-24",
+    "justification_dcu": {
+      "structure": "Campos derivados del HTA-1 (subtarea 1.2: búsqueda por persona/lugar/fecha) y HTA-2 (subtarea 4.3: nivel emocional del recuerdo). Ref: 03_task_analysis.md",
+      "content": "Recuerdos diseñados para cubrir los escenarios E-01 a E-04 (02_scenarios.md) y las tareas de las 3 Personas (02_personas.md)",
+      "emotional_range": "Escala 1-10 basada en el modelo de intensidad emocional del HTA-2 y el slider de atenuación (04_wireframes.md)"
+    }
+  },
+  "memories": [
+    {
+      "id": "mem-001",
+      "title": "Navidad en familia — 2025",
+      "description": "Cena de Nochebuena en casa. Los nietos abriendo regalos junto al árbol. Lucía cantó un villancico.",
+      "date": "2025-12-24T20:30:00",
+      "location": {
+        "name": "Casa familiar, Salamanca",
+        "coordinates": {
+          "lat": 40.965,
+          "lng": -5.664
+        }
+      },
+      "people": [
+        {
+          "id": "person-01",
+          "name": "Lucía",
+          "relationship": "nieta",
+          "faceClarity": 0.85
+        },
+        {
+          "id": "person-02",
+          "name": "Pablo",
+          "relationship": "nieto",
+          "faceClarity": 0.6
+        },
+        {
+          "id": "person-03",
+          "name": "Elena",
+          "relationship": "hija",
+          "faceClarity": 0.92
+        },
+        {
+          "id": "person-04",
+          "name": "Roberto",
+          "relationship": "yerno",
+          "faceClarity": 0.78
+        }
+      ],
+      "tags": [
+        "familia",
+        "navidad",
+        "celebración",
+        "nietos"
+      ],
+      "emotionalIntensity": 3,
+      "emotionalValence": "positive",
+      "clarityLevel": 0.72,
+      "attenuationLevel": 0,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23E8F0FE'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%232E6FCF' font-size='48'%3E🎄%3C/text%3E%3C/svg%3E",
+      "duration": 14400,
+      "category": "family",
+      "isProtected": false,
+      "lastAccessed": "2026-02-10T18:00:00",
+      "filters": {
+        "clarityApplied": false,
+        "attenuationApplied": false,
+        "lastModified": null
+      },
+      "notes": "",
+      "photoUrl": "https://source.unsplash.com/400x250/?christmas,family,lights"
+    },
+    {
+      "id": "mem-002",
+      "title": "Cumpleaños de Lucía — 7 años",
+      "description": "Fiesta de cumpleaños en el parque. Lucía sopló las velas y pidió un deseo. Había una piñata con forma de unicornio.",
+      "date": "2025-09-15T17:00:00",
+      "location": {
+        "name": "Parque de la Alamedilla, Salamanca",
+        "coordinates": {
+          "lat": 40.97,
+          "lng": -5.66
+        }
+      },
+      "people": [
+        {
+          "id": "person-01",
+          "name": "Lucía",
+          "relationship": "nieta",
+          "faceClarity": 0.9
+        },
+        {
+          "id": "person-03",
+          "name": "Elena",
+          "relationship": "hija",
+          "faceClarity": 0.88
+        },
+        {
+          "id": "person-05",
+          "name": "Marta",
+          "relationship": "amiga de Lucía",
+          "faceClarity": 0.45
+        }
+      ],
+      "tags": [
+        "familia",
+        "cumpleaños",
+        "nietos",
+        "parque"
+      ],
+      "emotionalIntensity": 2,
+      "emotionalValence": "positive",
+      "clarityLevel": 0.8,
+      "attenuationLevel": 0,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23FFF3E0'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23E65100' font-size='48'%3E🎂%3C/text%3E%3C/svg%3E",
+      "duration": 10800,
+      "category": "family",
+      "isProtected": false,
+      "lastAccessed": "2026-01-28T10:30:00",
+      "filters": {
+        "clarityApplied": false,
+        "attenuationApplied": false,
+        "lastModified": null
+      },
+      "notes": "",
+      "photoUrl": "https://source.unsplash.com/400x250/?birthday,children,park"
+    },
+    {
+      "id": "mem-003",
+      "title": "Paseo por el río Tormes",
+      "description": "Paseo tranquilo por la orilla del río una tarde de otoño. Las hojas caían de los árboles. Pablo preguntó por los patos.",
+      "date": "2025-10-22T16:00:00",
+      "location": {
+        "name": "Ribera del Tormes, Salamanca",
+        "coordinates": {
+          "lat": 40.958,
+          "lng": -5.668
+        }
+      },
+      "people": [
+        {
+          "id": "person-02",
+          "name": "Pablo",
+          "relationship": "nieto",
+          "faceClarity": 0.55
+        },
+        {
+          "id": "person-03",
+          "name": "Elena",
+          "relationship": "hija",
+          "faceClarity": 0.82
+        }
+      ],
+      "tags": [
+        "paseo",
+        "naturaleza",
+        "nietos",
+        "otoño"
+      ],
+      "emotionalIntensity": 2,
+      "emotionalValence": "positive",
+      "clarityLevel": 0.65,
+      "attenuationLevel": 0,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23E6F7EC'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23167638' font-size='48'%3E🍂%3C/text%3E%3C/svg%3E",
+      "duration": 5400,
+      "category": "daily",
+      "isProtected": false,
+      "lastAccessed": "2026-02-05T09:15:00",
+      "filters": {
+        "clarityApplied": true,
+        "attenuationApplied": false,
+        "lastModified": "2026-02-05T09:20:00"
+      },
+      "notes": "He mejorado la claridad de Pablo. Ahora le reconozco mejor.",
+      "photoUrl": "https://source.unsplash.com/400x250/?river,autumn,walk"
+    },
+    {
+      "id": "mem-004",
+      "title": "Boda de Elena y Roberto",
+      "description": "La ceremonia fue en la Catedral Nueva. Elena estaba preciosa con el vestido de su abuela. El banquete fue en el Parador.",
+      "date": "2005-06-18T12:00:00",
+      "location": {
+        "name": "Catedral Nueva, Salamanca",
+        "coordinates": {
+          "lat": 40.96,
+          "lng": -5.667
+        }
+      },
+      "people": [
+        {
+          "id": "person-03",
+          "name": "Elena",
+          "relationship": "hija",
+          "faceClarity": 0.95
+        },
+        {
+          "id": "person-04",
+          "name": "Roberto",
+          "relationship": "yerno",
+          "faceClarity": 0.93
+        },
+        {
+          "id": "person-06",
+          "name": "Antonio",
+          "relationship": "esposo (fallecido)",
+          "faceClarity": 0.4
+        }
+      ],
+      "tags": [
+        "boda",
+        "familia",
+        "celebración",
+        "catedral"
+      ],
+      "emotionalIntensity": 5,
+      "emotionalValence": "mixed",
+      "clarityLevel": 0.48,
+      "attenuationLevel": 0,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23F3E8FF'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%237C3AED' font-size='48'%3E💒%3C/text%3E%3C/svg%3E",
+      "duration": 36000,
+      "category": "milestone",
+      "isProtected": true,
+      "lastAccessed": "2026-02-18T20:00:00",
+      "filters": {
+        "clarityApplied": true,
+        "attenuationApplied": false,
+        "lastModified": "2026-01-15T11:00:00"
+      },
+      "notes": "Quiero ver mejor la cara de Antonio. Elena me ayudó a subir la claridad.",
+      "photoUrl": "https://source.unsplash.com/400x250/?wedding,cathedral,spain"
+    },
+    {
+      "id": "mem-005",
+      "title": "Primer día de colegio de Lucía",
+      "description": "Lucía con su mochila nueva de mariposas. Lloraba un poco al entrar pero luego saludó desde la ventana.",
+      "date": "2022-09-08T08:45:00",
+      "location": {
+        "name": "Colegio San Juan Bosco, Salamanca",
+        "coordinates": {
+          "lat": 40.968,
+          "lng": -5.655
+        }
+      },
+      "people": [
+        {
+          "id": "person-01",
+          "name": "Lucía",
+          "relationship": "nieta",
+          "faceClarity": 0.75
+        },
+        {
+          "id": "person-03",
+          "name": "Elena",
+          "relationship": "hija",
+          "faceClarity": 0.8
+        }
+      ],
+      "tags": [
+        "nietos",
+        "colegio",
+        "primer día",
+        "hito"
+      ],
+      "emotionalIntensity": 4,
+      "emotionalValence": "positive",
+      "clarityLevel": 0.58,
+      "attenuationLevel": 0,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23FFF9E6'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%238B7730' font-size='48'%3E🎒%3C/text%3E%3C/svg%3E",
+      "duration": 3600,
+      "category": "milestone",
+      "isProtected": false,
+      "lastAccessed": "2025-12-01T15:00:00",
+      "filters": {
+        "clarityApplied": false,
+        "attenuationApplied": false,
+        "lastModified": null
+      },
+      "notes": "",
+      "photoUrl": "https://source.unsplash.com/400x250/?school,child,backpack"
+    },
+    {
+      "id": "mem-006",
+      "title": "Accidente de tráfico — Misión Líbano",
+      "description": "El convoy fue emboscado en la carretera de Tiro. Explosión lateral. Recuerdo el ruido y el polvo. Martín gritaba pidiendo ayuda.",
+      "date": "2019-03-14T14:22:00",
+      "location": {
+        "name": "Carretera de Tiro, Líbano",
+        "coordinates": {
+          "lat": 33.273,
+          "lng": 35.196
+        }
+      },
+      "people": [
+        {
+          "id": "person-07",
+          "name": "Martín",
+          "relationship": "compañero de unidad",
+          "faceClarity": 0.7
+        },
+        {
+          "id": "person-08",
+          "name": "Sargento López",
+          "relationship": "superior",
+          "faceClarity": 0.55
+        }
+      ],
+      "tags": [
+        "trauma",
+        "misión",
+        "accidente",
+        "líbano"
+      ],
+      "emotionalIntensity": 9,
+      "emotionalValence": "negative",
+      "clarityLevel": 0.88,
+      "attenuationLevel": 0.45,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23FDE8E8'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23D94452' font-size='48'%3E⚠️%3C/text%3E%3C/svg%3E",
+      "duration": 1800,
+      "category": "trauma",
+      "isProtected": true,
+      "lastAccessed": "2026-02-20T22:15:00",
+      "filters": {
+        "clarityApplied": false,
+        "attenuationApplied": true,
+        "lastModified": "2026-02-20T22:30:00"
+      },
+      "notes": "",
+      "therapeuticMeta": {
+        "therapistId": "therapist-01",
+        "attenuationLimit": 0.75,
+        "sessionCount": 12,
+        "lastSessionDate": "2026-02-20T22:00:00",
+        "progressNotes": "Reducción gradual desde 0.30 a 0.45 en 4 sesiones. Buena tolerancia."
+      },
+      "photoUrl": "https://source.unsplash.com/400x250/?desert,military,road"
+    },
+    {
+      "id": "mem-007",
+      "title": "Pesadilla recurrente — El sonido",
+      "description": "El pitido agudo que precede a la explosión. Se repite en bucle. El suelo vibra. No puedo moverme.",
+      "date": "2019-03-14T14:22:30",
+      "location": {
+        "name": "Carretera de Tiro, Líbano",
+        "coordinates": {
+          "lat": 33.273,
+          "lng": 35.196
+        }
+      },
+      "people": [],
+      "tags": [
+        "trauma",
+        "flashback",
+        "pesadilla",
+        "sonido"
+      ],
+      "emotionalIntensity": 10,
+      "emotionalValence": "negative",
+      "clarityLevel": 0.95,
+      "attenuationLevel": 0.6,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%231A1B1E'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23D94452' font-size='48'%3E🔊%3C/text%3E%3C/svg%3E",
+      "duration": 30,
+      "category": "trauma",
+      "isProtected": true,
+      "lastAccessed": "2026-02-20T22:20:00",
+      "filters": {
+        "clarityApplied": false,
+        "attenuationApplied": true,
+        "lastModified": "2026-02-20T22:25:00"
+      },
+      "notes": "",
+      "therapeuticMeta": {
+        "therapistId": "therapist-01",
+        "attenuationLimit": 0.75,
+        "sessionCount": 12,
+        "lastSessionDate": "2026-02-20T22:00:00",
+        "progressNotes": "Fragmento más intenso. Prioridad en sesiones de atenuación."
+      },
+      "photoUrl": "https://source.unsplash.com/400x250/?dark,abstract,fear"
+    },
+    {
+      "id": "mem-008",
+      "title": "Vuelta a casa — Aeropuerto de Barajas",
+      "description": "Sandra esperándome en la terminal. Corrió hacia mí. No podía dejar de llorar. Olía a su perfume de siempre.",
+      "date": "2019-07-02T11:30:00",
+      "location": {
+        "name": "Aeropuerto Adolfo Suárez Madrid-Barajas",
+        "coordinates": {
+          "lat": 40.472,
+          "lng": -3.561
+        }
+      },
+      "people": [
+        {
+          "id": "person-09",
+          "name": "Sandra",
+          "relationship": "pareja",
+          "faceClarity": 0.92
+        }
+      ],
+      "tags": [
+        "vuelta",
+        "reencuentro",
+        "aeropuerto",
+        "pareja"
+      ],
+      "emotionalIntensity": 7,
+      "emotionalValence": "mixed",
+      "clarityLevel": 0.85,
+      "attenuationLevel": 0.15,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23E8F0FE'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%232E6FCF' font-size='48'%3E✈️%3C/text%3E%3C/svg%3E",
+      "duration": 7200,
+      "category": "personal",
+      "isProtected": false,
+      "lastAccessed": "2026-02-14T19:00:00",
+      "filters": {
+        "clarityApplied": false,
+        "attenuationApplied": true,
+        "lastModified": "2026-01-10T20:00:00"
+      },
+      "notes": "Quiero mantener este recuerdo pero sin el nudo en el estómago.",
+      "therapeuticMeta": {
+        "therapistId": "therapist-01",
+        "attenuationLimit": 0.75,
+        "sessionCount": 3,
+        "lastSessionDate": "2026-01-10T19:30:00",
+        "progressNotes": "Recuerdo mixto. Atenuación leve para reducir la ansiedad asociada."
+      },
+      "photoUrl": "https://source.unsplash.com/400x250/?airport,reunion,embrace"
+    },
+    {
+      "id": "mem-009",
+      "title": "Sesión de terapia con Dra. Vega",
+      "description": "Primera sesión usando el implante con supervisión. La doctora explicó los niveles de atenuación. Me sentí aliviado.",
+      "date": "2025-11-05T10:00:00",
+      "location": {
+        "name": "Consulta Dra. Vega, Madrid",
+        "coordinates": {
+          "lat": 40.43,
+          "lng": -3.69
+        }
+      },
+      "people": [
+        {
+          "id": "person-10",
+          "name": "Dra. Vega",
+          "relationship": "terapeuta",
+          "faceClarity": 0.9
+        }
+      ],
+      "tags": [
+        "terapia",
+        "implante",
+        "primera sesión",
+        "doctora"
+      ],
+      "emotionalIntensity": 4,
+      "emotionalValence": "positive",
+      "clarityLevel": 0.9,
+      "attenuationLevel": 0,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23E6F7EC'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23167638' font-size='48'%3E🧠%3C/text%3E%3C/svg%3E",
+      "duration": 3600,
+      "category": "medical",
+      "isProtected": false,
+      "lastAccessed": "2026-02-01T08:30:00",
+      "filters": {
+        "clarityApplied": false,
+        "attenuationApplied": false,
+        "lastModified": null
+      },
+      "notes": "",
+      "photoUrl": "https://source.unsplash.com/400x250/?therapy,office,calm"
+    },
+    {
+      "id": "mem-010",
+      "title": "Cocinar con Elena — Receta de mamá",
+      "description": "Elena vino a enseñarme la receta de lentejas de mi madre. Nos reímos mucho porque puse demasiado pimentón.",
+      "date": "2026-01-12T13:00:00",
+      "location": {
+        "name": "Casa familiar, Salamanca",
+        "coordinates": {
+          "lat": 40.965,
+          "lng": -5.664
+        }
+      },
+      "people": [
+        {
+          "id": "person-03",
+          "name": "Elena",
+          "relationship": "hija",
+          "faceClarity": 0.94
+        }
+      ],
+      "tags": [
+        "familia",
+        "cocina",
+        "receta",
+        "hija"
+      ],
+      "emotionalIntensity": 2,
+      "emotionalValence": "positive",
+      "clarityLevel": 0.88,
+      "attenuationLevel": 0,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23FFF3E0'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23E65100' font-size='48'%3E🍲%3C/text%3E%3C/svg%3E",
+      "duration": 7200,
+      "category": "family",
+      "isProtected": false,
+      "lastAccessed": "2026-02-15T12:00:00",
+      "filters": {
+        "clarityApplied": false,
+        "attenuationApplied": false,
+        "lastModified": null
+      },
+      "notes": "",
+      "photoUrl": "https://source.unsplash.com/400x250/?cooking,kitchen,family"
+    },
+    {
+      "id": "mem-011",
+      "title": "Caída de Antonio — Hospital",
+      "description": "La llamada del hospital. Llegué corriendo. Antonio en la cama, conectado a máquinas. Elena llorando en el pasillo.",
+      "date": "2020-11-30T03:15:00",
+      "location": {
+        "name": "Hospital Clínico, Salamanca",
+        "coordinates": {
+          "lat": 40.962,
+          "lng": -5.67
+        }
+      },
+      "people": [
+        {
+          "id": "person-06",
+          "name": "Antonio",
+          "relationship": "esposo (fallecido)",
+          "faceClarity": 0.35
+        },
+        {
+          "id": "person-03",
+          "name": "Elena",
+          "relationship": "hija",
+          "faceClarity": 0.72
+        }
+      ],
+      "tags": [
+        "hospital",
+        "pérdida",
+        "esposo",
+        "dolor"
+      ],
+      "emotionalIntensity": 8,
+      "emotionalValence": "negative",
+      "clarityLevel": 0.42,
+      "attenuationLevel": 0.2,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23F1F3F5'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23868E96' font-size='48'%3E🏥%3C/text%3E%3C/svg%3E",
+      "duration": 28800,
+      "category": "personal",
+      "isProtected": true,
+      "lastAccessed": "2025-11-30T09:00:00",
+      "filters": {
+        "clarityApplied": true,
+        "attenuationApplied": true,
+        "lastModified": "2025-11-30T09:15:00"
+      },
+      "notes": "Elena me ayudó a poner algo de atenuación. No quiero olvidarle pero duele mucho.",
+      "photoUrl": "https://source.unsplash.com/400x250/?hospital,corridor,sad"
+    },
+    {
+      "id": "mem-012",
+      "title": "Partido de fútbol de Pablo",
+      "description": "Pablo metió su primer gol. Corrió hacia las gradas a saludarme. Casi me caigo de la emoción aplaudiendo.",
+      "date": "2026-02-08T11:00:00",
+      "location": {
+        "name": "Campo municipal Las Pistas, Salamanca",
+        "coordinates": {
+          "lat": 40.973,
+          "lng": -5.658
+        }
+      },
+      "people": [
+        {
+          "id": "person-02",
+          "name": "Pablo",
+          "relationship": "nieto",
+          "faceClarity": 0.68
+        },
+        {
+          "id": "person-04",
+          "name": "Roberto",
+          "relationship": "yerno",
+          "faceClarity": 0.75
+        }
+      ],
+      "tags": [
+        "nietos",
+        "fútbol",
+        "deporte",
+        "gol"
+      ],
+      "emotionalIntensity": 3,
+      "emotionalValence": "positive",
+      "clarityLevel": 0.7,
+      "attenuationLevel": 0,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23E8F0FE'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%232E6FCF' font-size='48'%3E⚽%3C/text%3E%3C/svg%3E",
+      "duration": 5400,
+      "category": "family",
+      "isProtected": false,
+      "lastAccessed": "2026-02-22T17:45:00",
+      "filters": {
+        "clarityApplied": false,
+        "attenuationApplied": false,
+        "lastModified": null
+      },
+      "notes": "",
+      "photoUrl": "https://source.unsplash.com/400x250/?football,children,goal"
+    },
+    {
+      "id": "mem-013",
+      "title": "Entrenamiento de tiro — Base Cerro Muriano",
+      "description": "Ejercicio de tiro real. El sonido de los disparos rebotaba en las paredes del valle. Sudor frío antes de empezar.",
+      "date": "2018-05-20T07:00:00",
+      "location": {
+        "name": "Base Militar Cerro Muriano, Córdoba",
+        "coordinates": {
+          "lat": 37.948,
+          "lng": -4.759
+        }
+      },
+      "people": [
+        {
+          "id": "person-07",
+          "name": "Martín",
+          "relationship": "compañero de unidad",
+          "faceClarity": 0.8
+        },
+        {
+          "id": "person-08",
+          "name": "Sargento López",
+          "relationship": "superior",
+          "faceClarity": 0.85
+        }
+      ],
+      "tags": [
+        "militar",
+        "entrenamiento",
+        "tiro",
+        "base"
+      ],
+      "emotionalIntensity": 6,
+      "emotionalValence": "negative",
+      "clarityLevel": 0.82,
+      "attenuationLevel": 0.3,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23F5F6F8'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23495057' font-size='48'%3E🎯%3C/text%3E%3C/svg%3E",
+      "duration": 14400,
+      "category": "military",
+      "isProtected": false,
+      "lastAccessed": "2026-01-20T21:00:00",
+      "filters": {
+        "clarityApplied": false,
+        "attenuationApplied": true,
+        "lastModified": "2026-01-20T21:15:00"
+      },
+      "notes": "",
+      "therapeuticMeta": {
+        "therapistId": "therapist-01",
+        "attenuationLimit": 0.75,
+        "sessionCount": 5,
+        "lastSessionDate": "2026-01-20T20:30:00",
+        "progressNotes": "Recuerdo vinculado al trauma principal. Trabajar en paralelo."
+      },
+      "photoUrl": "https://source.unsplash.com/400x250/?military,training,shooting"
+    },
+    {
+      "id": "mem-014",
+      "title": "Caminata por la Sierra de Francia",
+      "description": "Sandra y yo subimos a la Peña de Francia. El atardecer desde arriba era impresionante. Ella sacó una foto que todavía tengo.",
+      "date": "2023-08-10T17:30:00",
+      "location": {
+        "name": "Peña de Francia, Salamanca",
+        "coordinates": {
+          "lat": 40.514,
+          "lng": -6.169
+        }
+      },
+      "people": [
+        {
+          "id": "person-09",
+          "name": "Sandra",
+          "relationship": "pareja",
+          "faceClarity": 0.88
+        }
+      ],
+      "tags": [
+        "pareja",
+        "montaña",
+        "atardecer",
+        "naturaleza"
+      ],
+      "emotionalIntensity": 3,
+      "emotionalValence": "positive",
+      "clarityLevel": 0.82,
+      "attenuationLevel": 0,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23FFF9E6'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%238B7730' font-size='48'%3E🌄%3C/text%3E%3C/svg%3E",
+      "duration": 10800,
+      "category": "personal",
+      "isProtected": false,
+      "lastAccessed": "2026-02-14T20:30:00",
+      "filters": {
+        "clarityApplied": false,
+        "attenuationApplied": false,
+        "lastModified": null
+      },
+      "notes": "",
+      "photoUrl": "https://source.unsplash.com/400x250/?mountain,sunset,hiking"
+    },
+    {
+      "id": "mem-015",
+      "title": "Revisión médica — Dr. Hernández",
+      "description": "Revisión rutinaria del implante. El doctor dijo que todo funciona correctamente. Me enseñó los datos de uso del último mes.",
+      "date": "2026-02-03T09:30:00",
+      "location": {
+        "name": "Clínica NeuroLink, Madrid",
+        "coordinates": {
+          "lat": 40.44,
+          "lng": -3.695
+        }
+      },
+      "people": [
+        {
+          "id": "person-11",
+          "name": "Dr. Hernández",
+          "relationship": "neurólogo",
+          "faceClarity": 0.92
+        }
+      ],
+      "tags": [
+        "médico",
+        "revisión",
+        "implante",
+        "rutina"
+      ],
+      "emotionalIntensity": 1,
+      "emotionalValence": "neutral",
+      "clarityLevel": 0.92,
+      "attenuationLevel": 0,
+      "thumbnail": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250' fill='%23E6F7EC'%3E%3Crect width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23167638' font-size='48'%3E⚕️%3C/text%3E%3C/svg%3E",
+      "duration": 2700,
+      "category": "medical",
+      "isProtected": false,
+      "lastAccessed": "2026-02-03T10:30:00",
+      "filters": {
+        "clarityApplied": false,
+        "attenuationApplied": false,
+        "lastModified": null
+      },
+      "notes": "",
+      "photoUrl": "https://source.unsplash.com/400x250/?medical,doctor,clinic"
+    }
+  ],
+  "categories": [
+    {
+      "id": "family",
+      "label": "Familia",
+      "icon": "👨‍👩‍👧‍👦",
+      "color": "#2E6FCF"
+    },
+    {
+      "id": "personal",
+      "label": "Personal",
+      "icon": "💛",
+      "color": "#E8A838"
+    },
+    {
+      "id": "milestone",
+      "label": "Hito importante",
+      "icon": "⭐",
+      "color": "#7C3AED"
+    },
+    {
+      "id": "trauma",
+      "label": "Traumático",
+      "icon": "⚠️",
+      "color": "#D94452"
+    },
+    {
+      "id": "daily",
+      "label": "Cotidiano",
+      "icon": "☀️",
+      "color": "#27A854"
+    },
+    {
+      "id": "medical",
+      "label": "Médico",
+      "icon": "⚕️",
+      "color": "#167638"
+    },
+    {
+      "id": "military",
+      "label": "Militar",
+      "icon": "🎖️",
+      "color": "#495057"
+    }
+  ],
+  "people": [
+    {
+      "id": "person-01",
+      "name": "Lucía",
+      "relationship": "nieta",
+      "owner": "maria-luisa"
+    },
+    {
+      "id": "person-02",
+      "name": "Pablo",
+      "relationship": "nieto",
+      "owner": "maria-luisa"
+    },
+    {
+      "id": "person-03",
+      "name": "Elena",
+      "relationship": "hija",
+      "owner": "maria-luisa"
+    },
+    {
+      "id": "person-04",
+      "name": "Roberto",
+      "relationship": "yerno",
+      "owner": "maria-luisa"
+    },
+    {
+      "id": "person-05",
+      "name": "Marta",
+      "relationship": "amiga de Lucía",
+      "owner": "maria-luisa"
+    },
+    {
+      "id": "person-06",
+      "name": "Antonio",
+      "relationship": "esposo (fallecido)",
+      "owner": "maria-luisa"
+    },
+    {
+      "id": "person-07",
+      "name": "Martín",
+      "relationship": "compañero de unidad",
+      "owner": "carlos"
+    },
+    {
+      "id": "person-08",
+      "name": "Sargento López",
+      "relationship": "superior",
+      "owner": "carlos"
+    },
+    {
+      "id": "person-09",
+      "name": "Sandra",
+      "relationship": "pareja",
+      "owner": "carlos"
+    },
+    {
+      "id": "person-10",
+      "name": "Dra. Vega",
+      "relationship": "terapeuta",
+      "owner": "carlos"
+    },
+    {
+      "id": "person-11",
+      "name": "Dr. Hernández",
+      "relationship": "neurólogo",
+      "owner": "shared"
+    }
+  ]
+}
