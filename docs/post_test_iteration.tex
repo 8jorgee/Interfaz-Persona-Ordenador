@@ -1,0 +1,259 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+
+\begin{document}
+
+\section*{14. Iteración Post-Evaluación: Correcciones de Diseño} [cite: 1]
+
+\textbf{Commit:} fix: Post-Test Design Iteration [cite: 2] \\
+\textbf{Fase DCU:} Evaluación e Iteración (Fase 5, paso 2 de 3) [cite: 3] \\
+\textbf{Dependencias:} Commit 13 (Usability Evaluation Report) [cite: 3]
+
+\textbf{Objetivo:} Implementar correcciones concretas en HTML/CSS/JS derivadas de los 7 problemas detectados en la evaluación de usabilidad, cerrando el ciclo iterativo del DCU. [cite: 4]
+
+\section{Metodología de Iteración} [cite: 5]
+
+\subsection{Principio rector} [cite: 6]
+La iteración sigue el principio de diseño basado en evidencia [1]: ningún cambio se implementa por intuición del diseñador, sino exclusivamente como respuesta directa a un problema documentado y cuantificado durante las pruebas con usuarios. [cite: 7] Este es el principio fundamental que distingue el DCU de otros enfoques de diseño [2]. [cite: 8]
+
+\subsection{Criterios de priorización} [cite: 9]
+La priorización de correcciones utiliza la matriz de severidad x frecuencia del Commit 13, alineada con el framework de Nielsen [3]: [cite: 10]
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Prioridad} & \textbf{Criterio} & \textbf{Acción} \\ [cite: 11]
+\midrule
+Alta & Severidad 3 Y Frecuencia $\ge3/5$ usuarios & Corrección inmediata obligatoria \\ [cite: 11]
+Media & Severidad 2-3 Y Frecuencia $2-3/5$ usuarios & Corrección recomendada \\ [cite: 11]
+Baja & Severidad 1-2 Y Frecuencia $1-2/5$ usuarios & Corrección deseable, no bloqueante \\ [cite: 11]
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Proceso de corrección} [cite: 12]
+Para cada problema, el proceso sigue tres pasos: [cite: 13]
+\begin{enumerate}
+    \item \textbf{Diagnóstico:} Qué componente falla, por qué falla, y qué usuarios se ven afectados. [cite: 14]
+    \item \textbf{Solución propuesta:} Cambio específico en HTML, CSS y/o JS, con justificación teórica. [cite: 15]
+    \item \textbf{Verificación:} Cómo se comprueba que el cambio resuelve el problema sin introducir regresiones. [cite: 16]
+\end{enumerate}
+
+\section{Mapa de Problemas $\rightarrow$ Soluciones} [cite: 17]
+\textbf{Resumen ejecutivo} [cite: 18]
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{llcXl}
+\toprule
+\textbf{ID} & \textbf{Problema} & \textbf{Prioridad} & \textbf{Componentes afectados} & \textbf{Tipo de cambio} \\ [cite: 19]
+\midrule
+P-01 & Etiqueta "Atenuación emocional" no comprendida & Baja & HTML+CSS & Texto + tooltip \\ [cite: 19]
+P-02 & Botón "Salir de sesión" poco visible & Alta & CSS + HTML & Reposicionamiento + estilo \\ [cite: 19]
+P-03 & Sin feedback al guardar cambios de claridad & Baja & JS+CSS & Notificación toast \\ [cite: 19]
+P-04 & Barra de búsqueda sin affordance & Media & CSS & Borde + icono + focus \\ [cite: 19]
+P-05 & Área de toque del slider insuficiente & Alta & CSS & Redimensionar thumb \\ [cite: 19]
+P-06 & Confusión al cambiar entre vistas/roles & Media & HTML+CSS+JS & Onboarding + labels \\ [cite: 19]
+P-07 & Indicador de conexión del implante ignorado & Baja & CSS & Tamaño + pulso más visible \\ [cite: 19]
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Trazabilidad cruzada problema $\rightarrow$ origen} [cite: 20]
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{lXXXX}
+\toprule
+\textbf{Problema} & \textbf{Hallazgo original (C13)} & \textbf{Análisis (C3)} & \textbf{Diseño (C4-C6)} & \textbf{Implementación (C7-C12)} \\ [cite: 21]
+\midrule
+P-01 & (no previsto) & & Wireframe §3.2: "Atenuación" & components.css: .filter-slider--attenuation \\ [cite: 21]
+P-02 & Tema 3: "poder parar" & HTA-2 §4.6: salida siempre & Wireframe Carlos §2: botón inferior & HTML: \#btn-exit-session \\ [cite: 21]
+P-03 & Tema 1: "quiero saber que funciona" & Gap §4.1: feedback & Microinteracción §5: guardado & JS: sliderController.js \\ [cite: 21]
+P-04 & Tema 4: dificultad con teclado & HTA-1 §1.2: búsqueda & Wireframe ML §1: search bar & components.css: .search-bar \\ [cite: 21]
+P-05 & Tema 4: motricidad limitada & HTA-1 §3.2: slider & Style Guide §4: 56px min & components.css: .filter-slider \\ [cite: 21]
+P-06 & (no previsto) & Modelo mental Elena §4.2 & Wireframe Elena §3: tabs & navigation.js: cambio de vista \\ [cite: 21]
+P-07 & Tema 2: "¿está encendido?" & Gap §4.1: estado implante & Wireframe header: indicador & neuro-aesthetic.css: .implant-connection \\ [cite: 22, 23, 24, 25, 26]
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Correcciones Detalladas} [cite: 27]
+
+\subsection{3.1. P-05 Área de toque del slider insuficiente [ALTA]} [cite: 28]
+\textbf{Diagnóstico:} [cite: 29]
+\begin{itemize}
+    \item Observación (C13 §5): Los participantes P1 (74 años, artritis) y P3 (68 años) tuvieron dificultad repetida para agarrar el thumb del slider. [cite: 30, 31] P1 necesitó 4 intentos para iniciar el arrastre del slider de claridad. [cite: 32]
+    \item Causa raíz: El thumb del slider tenía un tamaño visual de $24\times24px$ con área de toque efectiva de $\sim32\times32px$ por debajo del mínimo WCAG 2.5.8 (44×44px) [4] y muy inferior al objetivo de diseño de 56x56px establecido en el Style Guide (Commit 6, §4.3). [cite: 33]
+    \item Personas afectadas: María Luisa (primaria), cualquier usuario con motricidad reducida. [cite: 34]
+\end{itemize}
+
+\textbf{Solución (CSS):} [cite: 35, 36]
+\begin{lstlisting}[language=CSS]
+/* ANTES (Commit 9 components.css) */
+.filter-slider_thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+} /* [cite: 37, 38, 39, 40, 41] */
+
+/* DESPUÉS (Commit 14 corrección) */
+.filter-slider_thumb {
+    /* Tamaño visual aumentado */
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    /* Área de toque extendida mediante pseudo-elemento */
+    position: relative;
+} /* [cite: 42, 43, 44, 45, 46, 47, 48, 49, 50] */
+
+.filter-slider_thumb::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px; /* Objetivo de diseño: Style Guide §4.3 */
+    height: 56px;
+    border-radius: 50%;
+    /* Área invisible pero interactiva */
+} /* [cite: 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61] */
+\end{lstlisting}
+
+\textbf{Justificación teórica:} [cite: 68]
+\begin{itemize}
+    \item Fitts' Law [5]: Aumentar el tamaño del objetivo reduce el tiempo de adquisición de forma logarítmica. [cite: 69] Para usuarios con temblor o artritis, el efecto es aún más pronunciado. [cite: 70]
+    \item WCAG 2.5.8 Target Size (Enhanced) [4]: Recomienda objetivos de al menos $44\times44$ CSS pixels. [cite: 71] Nuestro diseño supera este umbral con $56\times56px$ de área efectiva. [cite: 72]
+    \item El pseudo-elemento (::before) permite mantener un tamaño visual elegante (32px) mientras la zona de toque real cumple los 56px del Style Guide. [cite: 73, 74]
+\end{itemize}
+
+\textbf{Verificación:} El thumb del slider ahora responde al toque/clic en toda el área de 56x56px. [cite: 75] Un usuario con motricidad reducida debería poder agarrar el slider al primer o segundo intento. [cite: 76]
+
+\subsection{3.2. P-02 Botón "Salir de sesión" poco visible [ALTA]} [cite: 77]
+\textbf{Diagnóstico:} [cite: 78]
+\begin{itemize}
+    \item Observación (C13 §5): 4 de 5 participantes tardaron más de 10 segundos en localizar el botón "Salir de sesión" durante la Tarea 5 (abandonar sesión de atenuación). [cite: 79] P2 verbalizó: "No sé cómo salir de aquí". P5 intentó usar el botón de retroceso del navegador. [cite: 80]
+    \item Causa raíz: El botón estaba posicionado en la parte inferior de la barra lateral, siguiendo el wireframe original (Commit 4, §3.2). [cite: 81] Sin embargo, durante una sesión de atenuación, la sidebar puede estar colapsada (Commit 8, layout de sesión), haciendo el botón inaccesible. [cite: 82]
+    \item Personas afectadas: Carlos (primaria sesión de atenuación), María Luisa (secundaria sesión de claridad). [cite: 83, 84, 85]
+\end{itemize}
+
+\textbf{Solución:} [cite: 86] \\
+\textbf{Cambio 1 HTML:} Añadir botón de salida redundante en la zona principal del visor. [cite: 87]
+\begin{lstlisting}[language=HTML]
+<button id="btn-exit-session" class="btn btn-ghost session-exit">
+    <span aria-hidden="true"></span> Salir
+</button> <div class="session-header">
+    <h2 class="session-header_title"></h2>
+    <div class="session-header_controls">
+        <span class="session-timer" aria-live="polite" aria-label="Duración de la sesión"></span>
+        <button id="btn-exit-session-header" class="btn btn-secondary btn-prominent session-exit" aria-label="Salir de esta sesión de atenuación">
+            <span class="btn_icon" aria-hidden="true"></span>
+            <span class="btn__text">Salir</span>
+        </button>
+    </div>
+</div> \end{lstlisting}
+
+\textbf{Justificación teórica:} [cite: 155]
+\begin{itemize}
+    \item Heurística de Nielsen \#3 Control y libertad del usuario [3]: El usuario debe poder salir de cualquier estado no deseado sin dificultad. [cite: 156] Un botón de salida que no se encuentra equivale a una violación grave de esta heurística. [cite: 157]
+    \item Heurística de Nielsen \#6 Reconocimiento antes que recuerdo [3]: La salida debe ser visible, no requerir que el usuario recuerde dónde está. [cite: 158]
+    \item Principio de redundancia segura: Dos puntos de acceso a la misma función crítica garantizan que al menos uno sea siempre visible. [cite: 159]
+\end{itemize}
+
+\textbf{Verificación:} El botón "Terminar sesión" es visible en todo momento durante una sesión activa, independientemente del estado de la sidebar. [cite: 161] El flujo de confirmación (D-06) se mantiene intacto. [cite: 162]
+
+\subsection{3.3. P-04 Barra de búsqueda sin affordance [MEDIA]} [cite: 163]
+\textbf{Diagnóstico:} [cite: 164]
+\begin{itemize}
+    \item Observación (C13 §5): P1 y P4 no identificaron la barra de búsqueda al intentar la Tarea 2 (buscar recuerdo por nombre). [cite: 166] P4 verbalizó: "¿Dónde escribo?". [cite: 167] La barra tenía un diseño minimalista sin comunicar su función. [cite: 168]
+    \item Causa raíz: Diseño excesivamente flat sin signifiers suficientes. [cite: 169]
+    \item Personas afectadas: María Luisa (primaria), usuarios con baja experiencia tecnológica. [cite: 170]
+\end{itemize}
+
+\textbf{Solución (CSS):} [cite: 171, 172]
+\begin{lstlisting}[language=CSS]
+/* DESPUÉS (Commit 14 corrección) */
+.search-bar_input {
+    background: var(--color-surface-base);
+    border: 2px solid var(--color-neutral-400); /* Borde visible */
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    padding-left: var(--space-10); /* Espacio para icono */
+    width: 100%;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08); /* Sombra affordance */
+    transition: all var(--duration-fast) var(--easing-standard);
+} /* [cite: 181, 182, 183, 184, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197] */
+\end{lstlisting}
+
+\textbf{Justificación teórica:} [cite: 241]
+\begin{itemize}
+    \item Norman Signifiers vs. Affordances [6]: Un campo de texto editable necesita signifiers visibles (borde, sombra interior, icono) que comuniquen "aquí se puede escribir". [cite: 242, 243]
+    \item Placeholder más descriptivo ("Escribe un nombre, lugar o fecha...") actúa como hint contextual. [cite: 245]
+    \item El icono de lupa es un signifier culturalmente universal para búsqueda [7]. [cite: 246]
+\end{itemize}
+
+\textbf{Verificación:} La barra de búsqueda es ahora visualmente distinguible como campo interactivo. [cite: 247] El icono y el placeholder comunican su función de forma inmediata. [cite: 248]
+
+\section{Resumen de Cambios por Archivo} [cite: 508]
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{lXl}
+\toprule
+\textbf{Archivo} & \textbf{Cambios realizados} & \textbf{Problemas resueltos} \\ [cite: 509]
+\midrule
+css/components.css & Thumb slider 56px, search bar affordance, slider-save-feedback, btn--prominent, tooltip-trigger & P-05, P-04, P-03, P-02, P-01 \\ [cite: 509]
+css/neuro-aesthetic.css & Indicador conexión ampliado, pulso más visible & P-07 \\ [cite: 509]
+css/layout.css & session-header sticky, .view-identity-bar & P-02, P-06 \\ [cite: 509]
+index.html (vista ML) & Search bar con icono, barra de identidad, feedback de guardado & P-04, P-06, P-03 \\ [cite: 509]
+index.html (vista Carlos) & Botón salida en header sesión, barra de identidad & P-02, P-06 \\ [cite: 509]
+index.html (vista Elena) & Barra de identidad + preview badge, tooltips & P-06, P-01 \\ [cite: 510]
+js/sliderController.js & Feedback de auto-save, toast educativo & P-03 \\ [cite: 510]
+js/navigation.js & Onboarding contextual por vista & P-06 \\ [cite: 510]
+js/sessionManager.js & Handler del nuevo botón de salida & P-02 \\ [cite: 510]
+js/dialogController.js & Tooltip expandido para "Suavizar la emoción" & P-01 \\ [cite: 510]
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Análisis del Impacto de la Iteración} [cite: 511]
+
+\subsection{5.1. Métricas esperadas post-corrección} [cite: 512]
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{llXl}
+\toprule
+\textbf{Métrica} & \textbf{Antes (C13)} & \textbf{Esperado post-C14} & \textbf{Justificación} \\ [cite: 513]
+\midrule
+Tasa de éxito global & 81.7\% & $\ge90\%$ & P-02 y P-05 causaban los fallos más frecuentes \\ [cite: 513]
+Tiempo medio T2 & 45s & <30s & P-04 (affordance búsqueda) reducirá exploración \\ [cite: 513]
+Tiempo medio T5 & 22s & <8s & P-02 (botón visible) elimina búsqueda del botón \\ [cite: 513]
+Errores en slider & 3.2/sesión & <1/sesión & P-05 (área 56px) mejora precisión motora \\ [cite: 513]
+SUS estimado & 83.5 & $\ge87$ & Mejoras en satisfacción (ítems 3, 7, 9) \\ [cite: 513]
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{5.2. Riesgos y limitaciones de la iteración} [cite: 514]
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{XX}
+\toprule
+\textbf{Riesgo} & \textbf{Mitigación} \\ [cite: 515]
+\midrule
+Los nuevos elementos (barra identidad, tooltips) pueden añadir ruido visual & Se usan colores suaves y la barra es compacta (1 línea). Se mantiene la jerarquía visual del Style Guide \\ [cite: 515]
+El botón redundante de salida podría confundir ("¿cuál uso?") & Ambos botones realizan la misma acción (D-06). El del header es el primario por posición \\ [cite: 515]
+El onboarding podría ser molesto para usuarios recurrentes & Solo aparece una vez por sesión (controlado por variable en memoria) \\ [cite: 515]
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\end{document}
